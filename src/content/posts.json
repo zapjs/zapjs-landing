@@ -8,7 +8,7 @@
     "paragraphs": [
       "ZapJS is built around one application graph. Pages, layouts, route handlers, server actions, client references, browser chunks, static assets and cache metadata are produced from the same model.",
       "Rust owns request admission, route planning, body limits, cancellation and host capabilities. React remains real React JavaScript, executed inside a Rust-controlled engine for server work.",
-      "The target deployment is still one managed project output. Users should not operate a separate Zap server, public process, Splice daemon or sidecar to deploy a normal application.",
+      "The target deployment is still one managed project output: static assets, browser chunks, server bundles, manifest data and Rust-managed dynamic artifacts produced together.",
       "The current repository contains the Rust foundation crates for routing, Splice, rendering and TSX bundling. The remaining work is connecting those crates into the full React SSR, Flight, hydration, actions and managed deployment vertical slice."
     ],
     "author": "ZapJS",
@@ -22,7 +22,7 @@
     "id": "splice-boundary",
     "slug": "splice-boundary",
     "title": "Splice is an internal Rust boundary",
-    "excerpt": "Splice exists for process isolation and replacement inside the framework, not as a user-operated backend.",
+    "excerpt": "Splice exists for process isolation and replacement inside the framework runtime.",
     "tags": ["rust", "runtime"],
     "paragraphs": [
       "Splice version 2 is a bounded Rust-to-Rust transport. It supports unary invocation, typed remote errors, negotiated frame limits, max in-flight admission, deadlines, cancellation and connection-failure cleanup.",

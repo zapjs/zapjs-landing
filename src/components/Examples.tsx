@@ -42,7 +42,7 @@ if let AdmissionOutcome::Dispatch(plan) = outcome {
     name: 'Internal worker boundary',
     label: 'zap-splice',
     icon: Activity,
-    description: 'Splice is bounded Rust-to-Rust infrastructure for framework-owned worker isolation. It is not exposed as a public backend or user-operated service.',
+    description: 'Splice is bounded Rust-to-Rust infrastructure for framework-owned worker isolation inside the Rust runtime.',
     evidence: 'cargo +1.96.0 test -p zap-splice',
     codeSnippet: `use bytes::Bytes;
 use std::time::Duration;

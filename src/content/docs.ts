@@ -40,8 +40,8 @@ export const documentation: DocumentationSection[] = [
   -> embedded React renderer or explicit Rust host operation
   -> response bytes`, 'text'),
   ] },
-  { id: 'splice', title: 'Splice', summary: 'Internal process isolation without turning into a public backend.', blocks: [
-    p('Splice connects trusted Rust peers where the framework needs process isolation or worker replacement. It is internal framework infrastructure and it is not a user-operated backend service.'),
+  { id: 'splice', title: 'Splice', summary: 'Internal Rust process isolation for framework-owned workers.', blocks: [
+    p('Splice connects trusted Rust peers where the framework needs process isolation or worker replacement. It is internal framework infrastructure owned by the Rust runtime.'),
     list('Versioned handshake and negotiated frame limits.', 'Bounded in-flight admission.', 'Typed success and remote error replies.', 'Client-side cancellation and server-side deadlines.', 'Connection failure cleanup for pending calls.', 'Subprocess fixture coverage.'),
     p('Streaming is deliberately not claimed yet. It needs credit-based backpressure and cancellation tests before it becomes part of the public contract.'),
   ] },
