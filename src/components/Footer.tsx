@@ -17,9 +17,9 @@ const footerLinks = [
   ] },
   { title: 'Resources', links: [
     { label: 'Articles', href: '/blog' },
-    { label: 'Source code', href: 'https://github.com/saint0x/zapjs' },
-    { label: 'Issues', href: 'https://github.com/saint0x/zapjs/issues' },
-    { label: 'Changes', href: 'https://github.com/saint0x/zapjs/commits' },
+    { label: 'Source code', href: 'https://github.com/zapjs/zapjs' },
+    { label: 'Issues', href: 'https://github.com/zapjs/zapjs/issues' },
+    { label: 'Changes', href: 'https://github.com/zapjs/zapjs/commits' },
   ] },
   { title: 'Explore', links: [
     { label: 'Route handlers', href: '/examples' },
@@ -54,7 +54,7 @@ export default function Footer() {
             </p>
 
             <div className="mt-6 flex items-center gap-3">
-              <a href="https://github.com/saint0x/zapjs" aria-label="ZapJS on GitHub" target="_blank" rel="noopener noreferrer" className="p-2 bg-carbon-800 hover:bg-carbon-700 rounded-lg transition-colors">
+              <a href="https://github.com/zapjs/zapjs" aria-label="ZapJS on GitHub" target="_blank" rel="noopener noreferrer" className="p-2 bg-carbon-800 hover:bg-carbon-700 rounded-lg transition-colors">
                 <Github className="w-5 h-5 text-carbon-400 hover:text-white" />
               </a>
               <a href="/docs" aria-label="Documentation" className="p-2 bg-carbon-800 hover:bg-carbon-700 rounded-lg transition-colors">
@@ -89,7 +89,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-4 text-sm">
             <a href="/docs" className="text-carbon-500 hover:text-white transition-colors">Documentation</a>
-            <a href="https://github.com/saint0x/zapjs" className="text-carbon-500 hover:text-white transition-colors">Source code</a>
+            <a href="https://github.com/zapjs/zapjs" className="text-carbon-500 hover:text-white transition-colors">Source code</a>
           </div>
         </div>
       </div>

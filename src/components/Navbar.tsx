@@ -98,7 +98,7 @@ export default function Navbar() {
           {/* CTA Buttons */}
           <div className="flex items-center gap-3">
             <motion.a
-              href="https://github.com/saint0x/zapjs"
+              href="https://github.com/zapjs/zapjs"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0 }}
@@ -176,7 +176,7 @@ export default function Navbar() {
             )}
             <div className="pt-2 flex flex-col gap-2">
               <a
-                href="https://github.com/saint0x/zapjs"
+                href="https://github.com/zapjs/zapjs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-2.5 border border-carbon-700 text-carbon-300 rounded-lg hover:bg-carbon-800/50 transition-colors"

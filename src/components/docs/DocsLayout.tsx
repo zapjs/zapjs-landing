@@ -171,7 +171,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
             {/* CTA Buttons */}
             <div className="flex items-center gap-3">
               <motion.a
-                href="https://github.com/saint0x/zapjs"
+                href="https://github.com/zapjs/zapjs"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0 }}
@@ -363,7 +363,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
           {/* Footer Link */}
           <div className="p-4 border-t border-carbon-800/50">
             <a
-              href="https://github.com/saint0x/zapjs"
+              href="https://github.com/zapjs/zapjs"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-carbon-400 hover:text-white transition-colors"

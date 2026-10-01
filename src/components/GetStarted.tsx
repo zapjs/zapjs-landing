@@ -144,7 +144,7 @@ export default function GetStarted() {
               className="mt-8 flex flex-wrap gap-4"
             >
               <a
-                href="https://github.com/saint0x/zapjs"
+                href="https://github.com/zapjs/zapjs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-carbon-800 hover:bg-carbon-700 border border-carbon-700 text-white font-medium rounded-full transition-colors"

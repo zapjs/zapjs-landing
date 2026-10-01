@@ -58,7 +58,7 @@ export default function ExamplesPage() {
             {/* CTA Buttons */}
             <div className="flex items-center gap-3">
               <motion.a
-                href="https://github.com/saint0x/zapjs"
+                href="https://github.com/zapjs/zapjs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-carbon-300 hover:text-white transition-colors"

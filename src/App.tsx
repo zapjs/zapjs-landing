@@ -61,7 +61,7 @@ export default function Home() {
         className="fixed bottom-6 right-6 z-50"
       >
         <a
-          href="https://github.com/saint0x/zapjs"
+          href="https://github.com/zapjs/zapjs"
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-2 px-4 py-2 bg-carbon-900/80 backdrop-blur-sm border border-carbon-800 rounded-full text-sm text-carbon-400 hover:text-white hover:border-zap-500/50 transition-all duration-300"
