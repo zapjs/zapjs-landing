@@ -48,11 +48,11 @@ export default function Performance() {
           </div>
 
           <h2 className="font-display font-black text-4xl sm:text-5xl text-white mb-6">
-            Fast by architecture, <span className="text-gradient">proven by traces</span>
+            Performance claims, <span className="text-gradient">proven by traces</span>
           </h2>
 
           <p className="text-lg text-carbon-400 max-w-3xl mx-auto">
-            The performance model is Rust-owned routing, bounded worker transport, explicit rendering limits and one deployment graph. Public numbers require production-equivalent evidence from the final pipeline.
+            The performance model is measured around Rust-owned routing, bounded worker transport, explicit rendering limits and one deployment graph. Public numbers require production-equivalent evidence from the final pipeline.
           </p>
         </motion.div>
 

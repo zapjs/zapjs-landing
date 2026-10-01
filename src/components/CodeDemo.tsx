@@ -43,21 +43,23 @@ export async function increment(previous: State): Promise<State> {
     &policy,
 )?;
 
-match outcome {
-    AdmissionOutcome::Dispatch(plan) => invoke_action(plan),
-    AdmissionOutcome::Respond(response) => send(response),
+if let AdmissionOutcome::Dispatch(plan) = outcome {
+    let action = plan.target.target.action;
+    assert_eq!(action.id, action_input.action_id);
 }`,
   },
   {
     id: 'rust', label: 'Rust Runtime', icon: Sparkles,
     filename: 'crates/runtime/src/lib.rs', language: 'rust',
-    code: `use zap_runtime::{RoutePattern, Router};
+    code: `use zap_runtime::routing::{Param, Route, Router};
 
-let mut router = Router::default();
-router.insert(RoutePattern::parse("/products/[id]")?, "product-page")?;
+let router = Router::new(vec![
+    Route::parse("product-page", "/products/[id]")?,
+])?;
 
-let matched = router.match_path("/products/42")?;
-assert_eq!(matched.params.get("id"), Some(&"42".to_string()));`,
+let matched = router.resolve("/products/42")?.unwrap();
+assert_eq!(matched.route.id, "product-page");
+assert_eq!(matched.params["id"], Param::One("42".into()));`,
   },
 ];
 
@@ -88,7 +90,7 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
         {copyStatus === 'copied' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-carbon-400" />}
       </button>
       <p role="status" className="px-4 pt-3 text-xs text-carbon-400">
-        {copyStatus === 'copied' ? 'Code copied.' : copyStatus === 'error' ? 'Clipboard unavailable. Select the code to copy it.' : 'Illustrative shape for the final Rust-owned React pipeline.'}
+        {copyStatus === 'copied' ? 'Code copied.' : copyStatus === 'error' ? 'Clipboard unavailable. Select the code to copy it.' : 'Target React authoring shape and current Rust contract names.'}
       </p>
       <pre className="overflow-x-auto p-4 sm:p-6 text-sm leading-relaxed">
         <code className="font-mono" dangerouslySetInnerHTML={{ __html: highlighted }} />

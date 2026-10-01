@@ -7,5 +7,5 @@ export const features = [
   { id: 'splice', title: 'Internal Splice Boundary', description: 'Splice is a bounded Rust worker transport for isolation and replacement, not a public service.' },
   { id: 'deployment', title: 'Rust-Managed Artifacts', description: 'The target deployment is one project output with static assets and Rust-managed function artifacts.' },
   { id: 'actions', title: 'Server Actions & Routes', description: 'Mutations and route handlers pass through Rust admission with explicit body, context and authorization boundaries.' },
-  { id: 'cache', title: 'Explicit Cache Policy', description: 'Public prerendering, request-local memoization and shared cache metadata are part of the graph contract.' },
+  { id: 'cache', title: 'Explicit Cache Policy', description: 'Cache metadata, cache-control decisions and public/private admission are part of the verified graph contract.' },
 ];
