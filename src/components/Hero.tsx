@@ -58,9 +58,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-8 text-lg sm:text-xl md:text-2xl text-carbon-400 max-w-3xl mx-auto leading-relaxed"
           >
-            <span className="text-sky-400 font-medium">React</span> pages, route handlers and server actions run inside a{' '}
-            <span className="text-rust-400 font-medium">Rust</span>-owned application runtime. One graph emits browser chunks,
-            server bundles, routing metadata and managed deployment artifacts.
+            <span className="text-sky-400 font-medium">React</span> pages, route handlers and server actions are being connected to a{' '}
+            <span className="text-rust-400 font-medium">Rust</span>-owned application runtime. The verified foundation emits browser chunks,
+            server bundles and routing metadata while managed deployment artifacts remain a release gate.
           </motion.p>
 
           <motion.div

@@ -7,7 +7,7 @@
     "tags": ["architecture", "deployment"],
     "paragraphs": [
       "ZapJS is built around one application graph. Pages, layouts, route handlers, server actions, client references, browser chunks, static assets and cache metadata are produced from the same model.",
-      "Rust owns request admission, route dispatch, body limits, response streaming, cancellation and host capabilities. React remains real React JavaScript, executed inside a Rust-controlled engine for server work.",
+      "Rust owns request admission, route planning, body limits, cancellation and host capabilities. React remains real React JavaScript, executed inside a Rust-controlled engine for server work.",
       "The target deployment is still one managed project output. Users should not operate a separate Zap server, public RPC process, Splice daemon or sidecar to deploy a normal application.",
       "The current repository contains the Rust foundation crates for routing, Splice, rendering and TSX bundling. The remaining work is connecting those crates into the full React SSR, Flight, hydration, actions and managed deployment vertical slice."
     ],
@@ -44,7 +44,7 @@
     "excerpt": "ZapJS optimizes the full request path, but speed claims require matched workloads and measured artifacts.",
     "tags": ["performance", "verification"],
     "paragraphs": [
-      "The fastest framework architecture is the one that removes work before optimizing what remains. ZapJS starts with prerendering, cache policy, smaller browser bundles, waterfall removal and streaming backpressure.",
+      "The fastest framework architecture is the one that removes work before optimizing what remains. ZapJS starts with prerendering, cache policy, smaller browser bundles, waterfall removal and measured streaming backpressure.",
       "Rust is used where profiling shows substantial CPU work, lifecycle control, artifact packaging or runtime isolation benefits. A fast router or isolated transport measurement is not page latency evidence.",
       "Production claims require equivalent behavior, pinned framework versions, cold and warm measurements, memory, CPU, throughput, client JavaScript transfer, browser-visible rendering and error rates under a stated load target.",
       "Until those measurements exist for the Rust-owned vertical slice, the website should present architecture and verification status rather than universal speedups."

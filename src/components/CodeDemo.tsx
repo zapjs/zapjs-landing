@@ -193,8 +193,8 @@ export default function CodeDemo() {
         >
           {[
             { step: '1', title: 'Compile the graph', description: 'Build React server bundles, browser chunks and manifests through the Rust build crate.', color: 'rust' },
-            { step: '2', title: 'Run through Rust', description: 'Route requests, enforce limits, render React and stream responses from the Rust runtime.', color: 'zap' },
-            { step: '3', title: 'Deploy as one app', description: 'Emit static assets and dynamic artifacts from the same project boundary.', color: 'sky' },
+            { step: '2', title: 'Admit through Rust', description: 'Route requests, enforce limits and dispatch only admitted action, handler or renderer work.', color: 'zap' },
+            { step: '3', title: 'Deploy as one app', description: 'Produce the managed artifact layout once the full React vertical slice is verified.', color: 'sky' },
           ].map((item) => (
             <div key={item.step} className="relative p-6 bg-carbon-900/30 border border-carbon-800/50 rounded-xl">
               <div className={`absolute -top-3 -left-3 w-8 h-8 border rounded-lg flex items-center justify-center ${stepColors[item.color].background}`}>

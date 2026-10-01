@@ -16,7 +16,7 @@ const note = (text: string): DocumentationBlock => ({ type: 'callout', text });
 export const documentation: DocumentationSection[] = [
   { id: 'introduction', title: 'Introduction', summary: 'React framework semantics with Rust-owned runtime and tooling.', blocks: [
     p('ZapJS is a Rust-owned React framework. The final implementation keeps the integrated application model developers expect from Next.js: file-based routes, nested layouts, server rendering, React Server Components, hydration, server actions, route handlers, static assets and managed deployment output from one project.'),
-    p('React remains real React JavaScript. Server bundles execute inside a Rust-controlled JavaScript engine with explicit Web primitives and named host operations. Rust owns request admission, routing, resource limits, streaming, cancellation, application functions, build orchestration and deployment packaging.'),
+    p('React remains real React JavaScript. Server bundles execute inside a Rust-controlled JavaScript engine with explicit Web primitives and named host operations. Rust owns request admission, routing, resource limits, streaming, cancellation, explicit host operations, build orchestration and deployment packaging.'),
     list('One application graph owns routes, assets, client references, actions and cache metadata.', 'Rust compiles TypeScript and TSX through Rust libraries for server and browser targets.', 'The embedded renderer exposes only the host capabilities ZapJS installs.', 'Splice is internal worker infrastructure, not a public service.'),
   ] },
   { id: 'status', title: 'Implementation Status', summary: 'What exists today and what still needs a vertical slice.', blocks: [
@@ -29,7 +29,7 @@ export const documentation: DocumentationSection[] = [
     h('Build graph'),
     p('The Rust build graph owns route hierarchy, layouts, server/client boundaries, action references, assets, dependency resolution, cache policy and deployment capabilities. Development and production must use the same graph semantics.'),
     h('Request runtime'),
-    p('A managed invocation enters a Rust request runtime. That runtime dispatches through the compiled route graph, runs Rust application functions directly where possible, invokes the embedded React renderer when needed, and streams bytes with backpressure.'),
+    p('A managed invocation enters a Rust request runtime. The target runtime dispatches through the compiled route graph, applies Rust-owned admission, invokes explicit host operations, runs the embedded React renderer when needed and streams bytes with backpressure.'),
     h('Renderer'),
     p('Server React bundles run inside an isolated JavaScript context controlled by Rust. The renderer has no filesystem, process or network API by default. Host calls are explicit and bounded.'),
     code(`Source app
@@ -37,7 +37,7 @@ export const documentation: DocumentationSection[] = [
   -> static assets + browser chunks + server bundles + manifest
   -> Rust-managed artifact
   -> Rust request runtime
-  -> embedded React renderer or direct Rust function
+  -> embedded React renderer or explicit Rust host operation
   -> streamed response`, 'text'),
   ] },
   { id: 'splice', title: 'Splice', summary: 'Internal process isolation without turning into a public backend.', blocks: [
@@ -46,7 +46,7 @@ export const documentation: DocumentationSection[] = [
     p('Streaming is deliberately not claimed yet. It needs credit-based backpressure and cancellation tests before it becomes part of the public contract.'),
   ] },
   { id: 'runtime', title: 'Runtime Boundaries', summary: 'What application code can rely on.', blocks: [
-    p('Application APIs are Rust functions or explicit React-host operations. Browser bundles cannot import server runtime APIs. Server bundles receive only the Web primitives and host operations ZapJS provides.'),
+    p('Application work crosses explicit Rust admission or named React-host operations. Browser bundles cannot import server runtime APIs. Server bundles receive only the Web primitives and host operations ZapJS provides.'),
     p('Route handlers and actions need explicit admission: body limits, request context, authorization hooks, cancellation, typed errors and public/private cache policy must be enforced before application code mutates state.'),
     p('Public prerendering and shared cache metadata belong to the graph. Request-local memoization is scoped to one request; cross-instance invalidation requires an adapter-backed store with deployment-specific namespace and versioning.'),
   ] },
@@ -61,7 +61,7 @@ export const documentation: DocumentationSection[] = [
     list('Measure cold and warm latency.', 'Report p50, p95 and p99.', 'Track memory, CPU, throughput and errors.', 'Measure client JavaScript transfer and browser-visible rendering.', 'Compare against pinned framework versions under equivalent behavior and load.'),
   ] },
   { id: 'verification', title: 'Verification Gates', summary: 'What must be proven before production claims.', blocks: [
-    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server functions execute through Rust-owned admission.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
+    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server actions execute through Rust-owned admission.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
     note('Crate tests and Fozzy traces are evidence for the foundation. They are not substitutes for the full framework vertical slice.'),
   ] },
 ];

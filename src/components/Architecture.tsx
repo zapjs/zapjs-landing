@@ -8,8 +8,8 @@ const layers = [
   {
     icon: Globe,
     label: 'Browser + Static Assets',
-    description: 'Hydrated React islands, client references, static files and browser chunks emitted from the same application graph.',
-    items: ['Hydration', 'Client References', 'Static Assets'],
+    description: 'Hydration inputs, client references, static files and browser chunks are tracked by the same application graph.',
+    items: ['Hydration Inputs', 'Client References', 'Static Assets'],
   },
   {
     icon: Package,
@@ -20,14 +20,14 @@ const layers = [
   {
     icon: Cpu,
     label: 'Rust Request Runtime',
-    description: 'Requests enter Rust-owned routing, admission control, body limits, cancellation, streaming and response handling.',
-    items: ['Routing', 'Backpressure', 'Cancellation'],
+    description: 'Requests enter Rust-owned routing and admission before any dynamic handler, action or renderer work is dispatched.',
+    items: ['Routing', 'Admission', 'Limits'],
   },
   {
     icon: Layers,
     label: 'Embedded React Host',
-    description: 'Server React executes inside a Rust-controlled JavaScript host with explicit Web primitives and bounded host operations.',
-    items: ['SSR', 'Flight', 'Host Calls'],
+    description: 'Server React bundles execute inside a Rust-controlled JavaScript host with explicit Web primitives and bounded host operations.',
+    items: ['SSR Gate', 'Flight Gate', 'Host Calls'],
   },
   {
     icon: Database,
@@ -40,19 +40,19 @@ const layers = [
 const flows = [
   {
     title: 'Development',
-    description: 'The graph watches React and Rust-owned runtime inputs, rebuilds the affected bundles, and restarts only the managed runtime boundary that changed.',
+    description: 'The target developer workflow will reuse the Rust graph for React and runtime inputs so rebuild and restart behavior follows the same manifest semantics as production.',
   },
   {
     title: 'Production request',
-    description: 'The request is routed by Rust, rendered through the embedded React host when dynamic work is needed, and streamed back with explicit cancellation and limits.',
+    description: 'The target request path is Rust routing and admission first, then admitted handler/action or embedded React renderer work with explicit cancellation and limits.',
   },
   {
     title: 'Deployment output',
-    description: 'The framework emits host-ready artifacts from one project: assets, browser chunks, server bundles, route metadata, cache metadata and Rust-managed dynamic functions.',
+    description: 'The release target is one project output: assets, browser chunks, server bundles, route metadata, cache metadata and Rust-managed dynamic artifacts.',
   },
   {
     title: 'Native work',
-    description: 'Application Rust work belongs to Rust-owned functions or host operations. It is framework-owned infrastructure, not a public add-on API.',
+    description: 'Native work belongs behind Rust-owned admission or named host operations. It is framework-owned infrastructure, not a public add-on API.',
   },
 ];
 
