@@ -51,7 +51,7 @@ const flows = [
   },
   {
     title: 'Native work',
-    description: 'Native work belongs behind Rust-owned admission or named host operations. It is framework-owned infrastructure, not a public add-on API.',
+    description: 'Native work belongs behind Rust-owned admission or named host operations. It is framework-owned infrastructure, not a public add-on surface.',
   },
 ];
 

@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { Book, Layers, Zap, Workflow, Cpu, FileCode2, Rocket, Check, Copy } from 'lucide-react';
 import { cn, highlightCode, tokensToHtml } from '../../lib/utils';
 import { documentation, type DocumentationBlock } from '../../content/docs';
@@ -50,7 +50,7 @@ const icons: Record<string, DocSection['icon']> = {
   status: FileCode2, runtime: Workflow, splice: Cpu, verification: Check,
   performance: Zap, deployment: Rocket,
 };
-function sectionContent(title: string, summary: string, blocks: DocumentationBlock[]): ReactNode {
+function sectionContent(title: string, summary: string, blocks: DocumentationBlock[]): ReactElement {
   return <article>
     <p className="text-xs font-semibold uppercase tracking-wider text-zap-400 mb-4">ZapJS · Rust-owned implementation</p>
     <h1 className="font-display font-black text-4xl sm:text-5xl text-white mb-6">{title}</h1>

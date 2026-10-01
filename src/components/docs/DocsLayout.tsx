@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ElementType, type ReactElement } from 'react';
 import {
   Zap,
   ChevronRight,
@@ -16,8 +16,8 @@ import { cn } from '../../lib/utils';
 export interface DocSection {
   id: string;
   title: string;
-  icon: React.ElementType;
-  content: React.ReactNode;
+  icon: ElementType;
+  content: ReactElement;
   summary: string;
   searchText: string;
 }

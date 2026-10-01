@@ -126,7 +126,7 @@ export default function Features() {
             <span className="text-gradient">keep one model</span>
           </h2>
           <p className="text-lg sm:text-xl text-carbon-400 max-w-3xl mx-auto">
-            React conventions, Web APIs, and Rust-owned native infrastructure. Each capability has an explicit runtime contract.
+            React conventions, Web platform primitives, and Rust-owned native infrastructure. Each capability has an explicit runtime contract.
           </p>
         </motion.div>
 

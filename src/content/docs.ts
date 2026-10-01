@@ -21,7 +21,7 @@ export const documentation: DocumentationSection[] = [
   ] },
   { id: 'status', title: 'Implementation Status', summary: 'What exists today and what still needs a vertical slice.', blocks: [
     p('The current core repository contains verified foundation crates. They prove important contracts at the crate boundary; they do not yet constitute a production-complete framework.'),
-    list('zap-runtime: route parsing, safe path decoding, compiled lookup and manifest source identity validation.', 'zap-splice: bounded Rust worker transport with cancellation, deadlines, frame limits, crash cleanup and subprocess coverage.', 'zap-render: Rust-owned JavaScript execution with route/action Response status and header validation, Web Stream consumption, explicit host calls, absence of ambient platform APIs, output limits and CPU interruption.', 'zap-build: Rust-only TSX bundling through Rolldown/Oxc for server IIFE and browser module outputs, with typed callable action and route-handler export discovery plus typed named export-list cache metadata discovery, re-export list exclusion until explicit graph resolution exists, Node builtin rejection, ambient platform-global rejection across direct, optional, literal and statically computed bracketed, probe and destructured references, static template module-specifier scanning, local type-only import/export elision, non-static dynamic-import rejection and regex-literal/non-reference identifier false-positive protection.'),
+    list('zap-runtime: route parsing, safe path decoding, compiled lookup and manifest source identity validation.', 'zap-splice: bounded Rust worker transport with cancellation, deadlines, frame limits, crash cleanup and subprocess coverage.', 'zap-render: Rust-owned JavaScript execution with route/action Response status and header validation, Web Stream consumption, explicit host calls, absence of ambient platform capabilities, output limits and CPU interruption.', 'zap-build: Rust-only TSX bundling through Rolldown/Oxc for server IIFE and browser module outputs, with typed callable action and route-handler export discovery plus typed named export-list cache metadata discovery, re-export list exclusion until explicit graph resolution exists, unsupported platform-module rejection, ambient platform-global rejection across direct, optional, literal and statically computed bracketed, probe and destructured references, static template module-specifier scanning, local type-only import/export elision, non-static dynamic-import rejection and regex-literal/non-reference identifier false-positive protection.'),
     code('CARGO_TARGET_DIR=artifacts/verification/rust-target cargo +1.96.0 test --workspace', 'shell'),
     note('The next production gate is connecting these crates into real React SSR, Flight, hydration, navigation, actions, route handlers, cache metadata and Rust-managed deployment artifacts.'),
   ] },
@@ -31,7 +31,7 @@ export const documentation: DocumentationSection[] = [
     h('Request runtime'),
     p('A managed invocation enters a Rust request runtime. The target runtime dispatches through the compiled route graph, applies Rust-owned admission, invokes explicit host operations and runs the embedded React renderer when needed. Response streaming stays a verification gate until the full pipeline proves backpressure and abort behavior.'),
     h('Renderer'),
-    p('Server React bundles run inside an isolated JavaScript context controlled by Rust. The renderer has no filesystem, process, network, browser storage, DOM, socket or package-loader API by default. Host calls are explicit and bounded.'),
+    p('Server React bundles run inside an isolated JavaScript context controlled by Rust. The renderer only receives the Web primitives and named host operations ZapJS installs. Host calls are explicit and bounded.'),
     code(`Source app
   -> Rust build graph
   -> static assets + browser chunks + server bundles + manifest
@@ -41,12 +41,12 @@ export const documentation: DocumentationSection[] = [
   -> response bytes`, 'text'),
   ] },
   { id: 'splice', title: 'Splice', summary: 'Internal process isolation without turning into a public backend.', blocks: [
-    p('Splice connects trusted Rust peers where the framework needs process isolation or worker replacement. It is not a public RPC API and it is not a user-operated backend service.'),
+    p('Splice connects trusted Rust peers where the framework needs process isolation or worker replacement. It is internal framework infrastructure and it is not a user-operated backend service.'),
     list('Versioned handshake and negotiated frame limits.', 'Bounded in-flight admission.', 'Typed success and remote error replies.', 'Client-side cancellation and server-side deadlines.', 'Connection failure cleanup for pending calls.', 'Subprocess fixture coverage.'),
     p('Streaming is deliberately not claimed yet. It needs credit-based backpressure and cancellation tests before it becomes part of the public contract.'),
   ] },
   { id: 'runtime', title: 'Runtime Boundaries', summary: 'What application code can rely on.', blocks: [
-    p('Application work crosses explicit Rust admission or named React-host operations. Browser bundles cannot import server runtime APIs. Server bundles receive only the Web primitives and host operations ZapJS provides.'),
+    p('Application work crosses explicit Rust admission or named React-host operations. Browser bundles stay on the browser side of the graph. Server bundles receive only the Web primitives and host operations ZapJS provides.'),
     p('Route handlers and actions need explicit admission before application code mutates state. The verified foundation covers body, request-context, deadline and public/private cache policy checks; app-specific authorization hooks remain a production gate.'),
     p('Public prerendering and shared cache metadata belong to the graph. Request-local memoization is scoped to one request; cross-instance invalidation requires a host-managed store or Rust-owned persistence boundary with deployment-specific namespace and versioning.'),
   ] },
