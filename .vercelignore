@@ -1,7 +1,0 @@
-node_modules
-.zap
-native/target
-.vercel
-.verification
-.fozzy
-tests

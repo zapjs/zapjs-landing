@@ -1,12 +1,6 @@
-node_modules/
-.zap/
-.vercel/
-.verification/
-native/target/
-*.node
-.env*
-!.env.example
 .DS_Store
 *.log
-public/downloads/
+.env*
+!.env.example
 .fozzy/
+target/

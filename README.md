@@ -10,7 +10,7 @@ The source of truth for runtime behavior is the core Rust workspace in `/Users/d
 
 ```bash
 cargo +1.96.0 test --workspace
-fozzy test --det --strict artifacts/verification/rust-only-crates.fozzy.json --json
+fozzy test --det --strict-verify artifacts/verification/rust-only-crates.fozzy.json --json
 ```
 
 Landing content should stay conservative until the core pipeline can prove the full React vertical slice with deterministic and host-backed traces.

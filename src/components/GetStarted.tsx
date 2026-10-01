@@ -10,7 +10,7 @@ const commands = [
     description: 'Run the Rust workspace tests for routing, Splice, rendering and TSX bundling.',
   },
   {
-    command: 'fozzy test --det --strict artifacts/verification/rust-only-crates.fozzy.json --json',
+    command: 'fozzy test --det --strict-verify artifacts/verification/rust-only-crates.fozzy.json --json',
     description: 'Run deterministic scenario coverage against the Rust-owned crate boundary.',
   },
   {
