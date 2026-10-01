@@ -12,9 +12,10 @@ const examples = [
     description: 'The runtime loads a Rust-owned application manifest, validates references and plans static assets, pages and route handlers before dispatch.',
     evidence: 'cargo +1.96.0 test -p zap-runtime',
     codeSnippet: `let outcome = admit_request_input(&manifest, &request, &limits)?;
-match outcome {
-  AdmissionOutcome::Dispatch(target) => run_target(target),
-  AdmissionOutcome::Respond(response) => send(response),
+if let AdmissionOutcome::Dispatch(target) = outcome {
+  assert!(matches!(target, RequestTarget::Page { .. }
+    | RequestTarget::RouteHandler { .. }
+    | RequestTarget::StaticAsset(_)));
 }`,
   },
   {
@@ -24,13 +25,17 @@ match outcome {
     icon: ShieldCheck,
     description: 'Known server actions are admitted through Rust with method, origin, body-size, request-context, auth-state and deadline policy checks.',
     evidence: 'request::tests::execution_admission_enforces_context_policy_before_dispatch',
-    codeSnippet: `let plan = admit_action_execution(
+    codeSnippet: `let outcome = admit_action_execution(
   &manifest,
   &action_input,
   &limits,
   &context,
   &policy,
-)?;`,
+)?;
+
+if let AdmissionOutcome::Dispatch(plan) = outcome {
+  assert_eq!(plan.target.target.action.id, action_input.action_id);
+}`,
   },
   {
     id: 'splice',
@@ -39,8 +44,11 @@ match outcome {
     icon: Activity,
     description: 'Splice is bounded Rust-to-Rust infrastructure for framework-owned worker isolation. It is not exposed as a public backend or user-operated service.',
     evidence: 'cargo +1.96.0 test -p zap-splice',
-    codeSnippet: `let client = Client::connect(stream, Config::default()).await?;
-let bytes = client.invoke("render", payload, deadline).await?;`,
+    codeSnippet: `use bytes::Bytes;
+use std::time::Duration;
+
+let client = Client::connect(stream, Config::default()).await?;
+let bytes = client.invoke("render", Bytes::from(payload), Duration::from_secs(1)).await?;`,
   },
   {
     id: 'fozzy',
