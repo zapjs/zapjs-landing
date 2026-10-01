@@ -1,8 +1,26 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+type ClassValue = string | number | false | null | undefined | ClassValue[] | { [className: string]: boolean | null | undefined };
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return flattenClassValues(inputs).join(' ');
+}
+
+function flattenClassValues(values: ClassValue[]): string[] {
+  const classes: string[] = [];
+  for (const value of values) {
+    if (!value) continue;
+    if (typeof value === 'string' || typeof value === 'number') {
+      classes.push(String(value));
+      continue;
+    }
+    if (Array.isArray(value)) {
+      classes.push(...flattenClassValues(value));
+      continue;
+    }
+    for (const [className, enabled] of Object.entries(value)) {
+      if (enabled) classes.push(className);
+    }
+  }
+  return classes;
 }
 
 // Syntax highlighting colors
