@@ -13,12 +13,12 @@ const policies = [
   {
     icon: Gauge,
     title: 'Optimize the hot path first',
-    body: 'Routing, request admission, cancellation, stream forwarding and host calls stay in Rust-owned code where limits and backpressure are explicit.',
+    body: 'Routing, request admission, cancellation and host calls stay in Rust-owned code where limits are explicit. Streaming remains a separate gate until backpressure is proven end to end.',
   },
   {
     icon: BarChart3,
     title: 'Measure cold and warm behavior',
-    body: 'Production evidence must include cold start, warm latency, p95 and p99 latency, memory, binary size, stream behavior and failure cleanup.',
+    body: 'Production evidence must include cold start, warm latency, p95 and p99 latency, memory, binary size, request abort behavior and failure cleanup.',
   },
   {
     icon: Activity,

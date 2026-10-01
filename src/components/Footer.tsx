@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Zap, Github, BookOpen, Code2, Heart } from 'lucide-react';
+import { Zap, Github, BookOpen, Code2 } from 'lucide-react';
 
 const footerLinks = [
   { title: 'Framework', links: [
@@ -25,7 +25,7 @@ const footerLinks = [
     { label: 'Route handlers', href: '/examples' },
     { label: 'Server actions', href: '/#code' },
     { label: 'Splice boundary', href: '/docs#splice' },
-    { label: 'Streaming', href: '/examples' },
+    { label: 'Verification gates', href: '/docs#verification' },
   ] },
 ];
 
@@ -84,8 +84,8 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-carbon-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-carbon-500">&copy; {new Date().getFullYear()} ZapJS. All rights reserved.</p>
-          <div className="flex items-center gap-1 text-sm text-carbon-500">
-            Made with <Heart className="w-4 h-4 text-rust-400 mx-1" fill="currentColor" /> using <span className="text-zap-400 font-medium ml-1">ZapJS</span>
+          <div className="text-sm text-carbon-500">
+            Rust-owned React framework foundation.
           </div>
           <div className="flex items-center gap-4 text-sm">
             <a href="/docs" className="text-carbon-500 hover:text-white transition-colors">Documentation</a>

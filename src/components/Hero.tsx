@@ -70,7 +70,7 @@ export default function Hero() {
             className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-12"
           >
             {[
-              { value: 'React', label: 'Server + Client Rendering' },
+              { value: 'React', label: 'Application Authoring Model' },
               { value: 'Rust', label: 'Request Runtime + Build Graph' },
               { value: 'Splice', label: 'Internal Worker Boundary' },
             ].map((stat, i) => (
