@@ -13,7 +13,6 @@ import {
   Github
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { Link } from '@zap-js/client';
 
 export interface DocSection {
   id: string;
@@ -103,7 +102,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            <a href="/" className="flex items-center gap-2 group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -119,7 +118,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                   Zap<span className="text-zap-400">JS</span>
                 </span>
               </motion.div>
-            </Link>
+            </a>
 
             {/* Doc Section Navigation */}
             <div className="flex items-center gap-1">
@@ -186,12 +185,12 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                 <span>GitHub</span>
               </motion.a>
 
-              <Link
+              <a
                 href="/"
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 hover:from-zap-400 hover:to-zap-500 text-white text-sm font-semibold rounded-full shadow-lg shadow-zap-500/25 transition-all duration-300"
               >
                 Back to Home
-              </Link>
+              </a>
             </div>
           </div>
         </nav>
@@ -208,7 +207,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
           >
             <Menu className="w-6 h-6" />
           </button>
-          <Link
+          <a
             href="/"
             className="flex items-center gap-2"
           >
@@ -216,7 +215,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
               <Zap className="w-4 h-4 text-white" fill="currentColor" />
             </div>
             <span className="font-display font-bold text-white">Zap<span className="text-zap-400">JS</span> Docs</span>
-          </Link>
+          </a>
           <div className="w-10" />
         </div>
         {/* Mobile section tabs */}
@@ -260,7 +259,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b border-carbon-800/50">
-            <Link
+            <a
               href="/"
               className="flex items-center gap-2 group"
             >
@@ -273,7 +272,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
               <span className="font-display font-bold text-lg text-white">
                 Zap<span className="text-zap-400">JS</span>
               </span>
-            </Link>
+            </a>
             <button
               onClick={() => setSidebarOpen(false)}
               aria-label="Close documentation menu"
@@ -396,10 +395,10 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-carbon-500 mb-8">
-            <Link
+            <a
               href="/"
               className="hover:text-white transition-colors"
-            >Home</Link>
+            >Home</a>
             <ChevronRight className="w-4 h-4" />
             <span className="text-carbon-300">Docs</span>
             <ChevronRight className="w-4 h-4" />

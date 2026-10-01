@@ -1,13 +1,11 @@
 /** Public capability copy shared by the page and /api/features. */
 export const features = [
-  { id: 'react', title: 'React Server Components', description: 'Render on the server, hydrate interactive components, and stream Suspense boundaries in one application.' },
-  { id: 'routing', title: 'File-Based Routing', description: 'Pages, nested layouts, route groups and dynamic segments share one route graph. Public pages can opt into prerendering.' },
-  { id: 'native', title: 'Typed Native Functions', description: 'Import compiled Rust exports through zap:native in server code. napi-rs generates the TypeScript declarations.' },
-  { id: 'deployment', title: 'Managed Deployment', description: 'Build static assets and a traced Node 22 function for Vercel. Optional Rust runs inside that same function.' },
-  { id: 'actions', title: 'Server Actions', description: 'Use React forms and async actions with origin checks, body limits and build-scoped references. Authorize operations in your application.' },
-  { id: 'streaming', title: 'Web Request & Response', description: 'Route handlers return standard responses, including streams and binary bodies. Backpressure and cancellation reach their producers.' },
-  { id: 'development', title: 'One Development Command', description: 'zap dev updates React through Vite. Native edits rebuild the addon and restart the local runtime, with compiler errors surfaced.' },
-  { id: 'cache', title: 'Explicit Shared Caching', description: 'Request-local memoization and optional Redis-backed public caches. Tagged invalidation coordinates across function instances.' },
+  { id: 'react', title: 'React on a Rust Runtime', description: 'React stays real React while Rust owns request admission, routing, limits, streaming and host capabilities.' },
+  { id: 'routing', title: 'One Application Graph', description: 'Routes, layouts, client references, actions, assets and cache policy come from one build graph.' },
+  { id: 'renderer', title: 'Embedded Rendering Host', description: 'Server bundles run inside a Rust-owned JavaScript engine with explicit Web primitives and host calls.' },
+  { id: 'build', title: 'Rust TSX Build Path', description: 'TypeScript and TSX are bundled through Rust libraries for server and browser targets.' },
+  { id: 'splice', title: 'Internal Splice Boundary', description: 'Splice is a bounded Rust worker transport for isolation and replacement, not a public service.' },
+  { id: 'deployment', title: 'Managed Native Artifacts', description: 'The target deployment is one project output with static assets and Rust-managed function artifacts.' },
+  { id: 'actions', title: 'Server Actions & Routes', description: 'Mutations and route handlers are admitted by Rust with explicit body, context and authorization boundaries.' },
+  { id: 'cache', title: 'Explicit Cache Policy', description: 'Public prerendering, request-local memoization and shared cache metadata are part of the graph contract.' },
 ];
-
-export const frameworkArchive = '/downloads/zap-js-client-0.3.0.tgz';

@@ -1,61 +1,57 @@
 'use client';
 
-import { frameworkArchive } from '../content/framework';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Rocket, Copy, Check, Terminal, ArrowRight, Folder, FileCode, Server } from 'lucide-react';
 
-const steps = [
+const commands = [
   {
-    command: 'npm exec --package ./zap-js-client-0.3.0.tgz -- zap new my-app --no-install',
-    description: 'From the folder containing your downloaded snapshot, scaffold the app.',
+    command: 'cargo +1.96.0 test --workspace',
+    description: 'Run the Rust workspace tests for routing, Splice, rendering and TSX bundling.',
   },
   {
-    command: 'cd my-app\nmkdir vendor\ncp ../zap-js-client-0.3.0.tgz vendor/\nnpm install ./vendor/zap-js-client-0.3.0.tgz',
-    description: 'Install the local framework package and application dependencies.',
+    command: 'fozzy test --det --strict artifacts/verification/rust-only-crates.fozzy.json --json',
+    description: 'Run deterministic scenario coverage against the Rust-owned crate boundary.',
   },
   {
-    command: 'npm run dev',
-    description: 'Start the app, then open the address printed in your terminal.',
+    command: 'fozzy trace verify artifacts/verification/rust-only-crates-host.trace.fozzy --strict --json',
+    description: 'Verify a recorded host-backed trace before treating runtime behavior as production evidence.',
   },
 ];
 
 const projectStructure = [
-  { type: 'folder', name: 'app/', indent: 0, description: 'Application routes' },
-  { type: 'file', name: 'layout.tsx', indent: 1, description: 'Root HTML document' },
-  { type: 'file', name: 'page.tsx', indent: 1, description: 'Server component at /' },
-  { type: 'file', name: 'counter.tsx', indent: 1, description: 'Interactive client component' },
-  { type: 'folder', name: 'api/health/', indent: 1, description: 'Web API route' },
-  { type: 'file', name: 'route.ts', indent: 2, description: 'Exports GET with a Response' },
-  { type: 'folder', name: 'native/ (optional)', indent: 0, description: 'Added with --native' },
-  { type: 'file', name: 'Cargo.toml', indent: 1, description: 'napi-rs library dependencies' },
-  { type: 'file', name: 'src/lib.rs', indent: 1, description: 'Typed native exports' },
-  { type: 'file', name: 'package.json', indent: 0, description: 'Dependencies and CLI scripts' },
-  { type: 'file', name: 'tsconfig.json', indent: 0, description: 'Application TypeScript' },
+  { type: 'folder', name: 'crates/runtime/', indent: 0, description: 'Routes, path safety and request contracts' },
+  { type: 'folder', name: 'crates/splice/', indent: 0, description: 'Bounded internal worker transport' },
+  { type: 'folder', name: 'crates/render/', indent: 0, description: 'Rust-owned JavaScript host for React execution' },
+  { type: 'folder', name: 'crates/build/', indent: 0, description: 'TSX graph compilation through Rust libraries' },
+  { type: 'folder', name: 'docs/', indent: 0, description: 'Current architecture and implementation notes' },
+  { type: 'file', name: 'Cargo.toml', indent: 0, description: 'Single Rust workspace definition' },
 ];
 
 function CopyButton({ text }: { text: string }) {
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>('idle');
 
   const handleCopy = async () => {
-    try { await navigator.clipboard.writeText(text); setCopyStatus('copied'); }
-    catch { setCopyStatus('error'); }
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyStatus('copied');
+    } catch {
+      setCopyStatus('error');
+    }
   };
 
   return (
     <div className="flex-shrink-0 text-right">
       <button
-        aria-label="Copy setup command"
+        aria-label="Copy validation command"
         onClick={handleCopy}
         className="p-2 hover:bg-carbon-700 rounded-lg transition-colors"
       >
-        {copyStatus === 'copied' ? (
-          <Check className="w-4 h-4 text-emerald-400" />
-        ) : (
-          <Copy className="w-4 h-4 text-carbon-400" />
-        )}
+        {copyStatus === 'copied' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-carbon-400" />}
       </button>
-      <span role="status" className="block text-xs text-carbon-400">{copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Copy failed' : ''}</span>
+      <span role="status" className="block text-xs text-carbon-400">
+        {copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Copy failed' : ''}
+      </span>
     </div>
   );
 }
@@ -66,7 +62,6 @@ export default function GetStarted() {
 
   return (
     <section id="get-started" className="relative py-24 sm:py-32">
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-zap-500/5 to-transparent pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,46 +74,37 @@ export default function GetStarted() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-zap-500/10 border border-zap-500/20 rounded-full">
             <Rocket className="w-4 h-4 text-zap-400" />
-            <span className="text-sm font-medium text-zap-400">Get Started</span>
+            <span className="text-sm font-medium text-zap-400">Implementation Status</span>
           </div>
 
           <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-white mb-6">
-            Get{' '}
-            <span className="text-gradient">started</span>
+            Built around the <span className="text-gradient">Rust workspace</span>
           </h2>
 
           <p className="text-lg text-carbon-400 max-w-2xl mx-auto">
-            Start with the tested 0.3 package snapshot. Use Node 22.15 or newer in the Node 22 line and npm; Rust is needed only for native functions.
+            The implementation surface is the Rust core: runtime, Splice, renderer and build graph. Application scaffolding returns after those crates are connected into the production React pipeline.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left: Terminal steps */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Terminal window */}
             <div className="relative">
               <div className="absolute -inset-2 bg-gradient-to-r from-zap-500/20 to-rust-500/20 rounded-2xl blur-xl opacity-50" />
 
               <div className="relative bg-carbon-900/90 backdrop-blur-xl border border-carbon-800 rounded-2xl overflow-hidden">
-                {/* Terminal header */}
                 <div className="flex items-center gap-2 px-4 py-3 bg-carbon-900/50 border-b border-carbon-800">
                   <div className="w-3 h-3 rounded-full bg-red-500/80" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                   <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                  <span className="ml-3 text-sm text-carbon-500 font-mono">terminal</span>
+                  <span className="ml-3 text-sm text-carbon-500 font-mono">validation</span>
                 </div>
 
-                <div className="px-4 sm:px-6 pt-6 text-sm text-carbon-400">
-                  <a href={frameworkArchive} download className="inline-flex items-center gap-2 text-zap-400 hover:text-zap-300 font-medium">Download zap-js-client-0.3.0.tgz <ArrowRight className="w-4 h-4" /></a>
-                  <p className="mt-2">Download this file first. Version 0.3 is an unpublished snapshot, installed locally rather than fetched from the npm registry.</p>
-                </div>
-                {/* Commands */}
                 <div className="p-4 sm:p-6 space-y-6">
-                  {steps.map((step, i) => (
+                  {commands.map((step, i) => (
                     <motion.div
                       key={step.command}
                       initial={{ opacity: 0, x: -20 }}
@@ -136,7 +122,6 @@ export default function GetStarted() {
                     </motion.div>
                   ))}
 
-                  {/* Success message */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}
@@ -145,14 +130,13 @@ export default function GetStarted() {
                   >
                     <div className="flex items-center gap-2 text-emerald-400">
                       <Check className="w-5 h-5" />
-                      <span className="font-mono text-sm">Then visit the local URL printed by zap dev.</span>
+                      <span className="font-mono text-sm">Ship claims only after executable evidence exists.</span>
                     </div>
                   </motion.div>
                 </div>
               </div>
             </div>
 
-            {/* Quick links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -165,77 +149,58 @@ export default function GetStarted() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-carbon-800 hover:bg-carbon-700 border border-carbon-700 text-white font-medium rounded-full transition-colors"
               >
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-                View on GitHub
+                Source code
+                <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="/docs"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 text-white font-semibold rounded-full shadow-lg shadow-zap-500/25 hover:shadow-zap-500/40 transition-shadow"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-zap-500 hover:bg-zap-600 text-white font-medium rounded-full transition-colors"
               >
-                Read the Docs
+                Read docs
                 <ArrowRight className="w-4 h-4" />
               </a>
             </motion.div>
           </motion.div>
 
-          {/* Right: Project structure */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="relative"
           >
-            <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-              <Folder className="w-5 h-5 text-zap-400" />
-              Project Structure
-            </h3>
+            <div className="absolute -inset-2 bg-gradient-to-r from-rust-500/20 to-sky-500/20 rounded-2xl blur-xl opacity-50" />
 
-            <div className="bg-carbon-900/50 border border-carbon-800 rounded-xl p-4 sm:p-6">
-              <div className="font-mono text-sm space-y-1">
-                {projectStructure.map((item, i) => (
-                  <motion.div
-                    key={`${item.name}-${i}`}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.3, delay: 0.4 + i * 0.05 }}
-                    className="flex items-center gap-3 py-1 group"
-                    style={{ paddingLeft: `${item.indent * 20}px` }}
-                  >
-                    {item.type === 'folder' ? (
-                      <Folder className="w-4 h-4 text-zap-400 flex-shrink-0" />
-                    ) : (
-                      <FileCode className="w-4 h-4 text-carbon-500 flex-shrink-0" />
-                    )}
-                    <span className={item.type === 'folder' ? 'text-zap-400' : 'text-carbon-300'}>
-                      {item.name}
-                    </span>
-                    <span className="text-carbon-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                      {item.description}
-                    </span>
-                  </motion.div>
-                ))}
+            <div className="relative bg-carbon-900/90 backdrop-blur-xl border border-carbon-800 rounded-2xl p-6 sm:p-8">
+              <div className="flex items-center gap-3 mb-8">
+                <Folder className="w-6 h-6 text-zap-400" />
+                <h3 className="font-display font-bold text-2xl text-white">Core layout</h3>
               </div>
-            </div>
 
-            {/* Feature callouts */}
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              {[
-                { icon: Terminal, label: 'CLI Tools', value: 'zap dev, build, routes' },
-                { icon: Server, label: 'Optional Rust', value: 'Add --native when scaffolding' },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.8 + i * 0.1 }}
-                  className="p-4 bg-carbon-900/30 border border-carbon-800/50 rounded-xl"
-                >
-                  <item.icon className="w-5 h-5 text-zap-400 mb-2" />
-                  <div className="text-sm font-medium text-white">{item.label}</div>
-                  <div className="text-xs text-carbon-500">{item.value}</div>
-                </motion.div>
-              ))}
+              <div className="space-y-2 font-mono text-sm">
+                {projectStructure.map((item, i) => {
+                  const Icon = item.type === 'folder' ? Folder : item.name.endsWith('.rs') || item.name.endsWith('.tsx') ? FileCode : Server;
+                  return (
+                    <motion.div
+                      key={`${item.name}-${i}`}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.3, delay: 0.5 + i * 0.05 }}
+                      className="group flex items-center gap-3 p-2 rounded-lg hover:bg-carbon-800/50 transition-colors"
+                      style={{ paddingLeft: `${item.indent * 1.5 + 0.5}rem` }}
+                    >
+                      <Icon className={`w-4 h-4 flex-shrink-0 ${item.type === 'folder' ? 'text-zap-400' : 'text-carbon-500'}`} />
+                      <span className={`${item.type === 'folder' ? 'text-white' : 'text-carbon-300'}`}>{item.name}</span>
+                      <span className="text-carbon-600 group-hover:text-carbon-500 transition-colors">— {item.description}</span>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-8 p-4 bg-carbon-800/50 rounded-xl border border-carbon-700/50">
+                <p className="text-sm text-carbon-400">
+                  The public app surface will return once the Rust pipeline owns SSR, Flight, hydration, actions, routes, cache metadata and deployment packaging from one graph.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>

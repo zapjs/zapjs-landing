@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Zap, Github, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { Link, usePathname } from '@zap-js/client';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const [pathname, setPathname] = useState('/');
 
   useEffect(() => {
+    setPathname(window.location.pathname);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -68,7 +68,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                 >
-                  <Link
+                  <a
                     href={link.href}
                     className={cn(
                       "px-4 py-2 text-sm font-medium transition-colors relative group block",
@@ -77,7 +77,7 @@ export default function Navbar() {
                   >
                     {link.label}
                     <span className="absolute inset-x-4 -bottom-px h-px bg-gradient-to-r from-transparent via-zap-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
+                  </a>
                 </motion.div>
               ) : (
                 <motion.a
@@ -152,7 +152,7 @@ export default function Navbar() {
           <div className="py-4 space-y-2 border-t border-carbon-800/50">
             {navLinks.map((link) =>
               link.isRoute ? (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -162,7 +162,7 @@ export default function Navbar() {
                   )}
                 >
                   {link.label}
-                </Link>
+                </a>
               ) : (
                 <a
                   key={link.href}

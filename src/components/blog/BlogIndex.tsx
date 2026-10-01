@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowRight } from 'lucide-react';
-import { Link } from '@zap-js/client';
 import posts from '../../content/posts';
 export default function BlogIndex(){
   return (
@@ -33,7 +32,7 @@ export default function BlogIndex(){
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group"
             >
-              <Link href={`/blog/${post.slug}`}>
+              <a href={`/blog/${post.slug}`}>
                 <div className="p-6 bg-carbon-900/50 border border-carbon-800 rounded-xl hover:border-zap-500/50 transition-all duration-300">
                   <div className="flex items-center gap-4 text-sm text-carbon-500 mb-3">
                     <span className="flex items-center gap-1">
@@ -70,18 +69,18 @@ export default function BlogIndex(){
                     </span>
                   </div>
                 </div>
-              </Link>
+              </a>
             </motion.article>
           ))}
         </div>
 
         <div className="mt-12 text-center">
-          <Link
+          <a
             href="/"
             className="text-carbon-400 hover:text-white transition-colors"
           >
             Back to Home
-          </Link>
+          </a>
         </div>
       </div>
     </div>

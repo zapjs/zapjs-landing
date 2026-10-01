@@ -2,89 +2,58 @@
   {
     "id": "one-application",
     "slug": "one-application",
-    "title": "One application, from source to managed deployment",
-    "excerpt": "How the current ZapJS compiler connects React pages, server actions and managed functions.",
-    "tags": [
-      "architecture",
-      "deployment"
-    ],
+    "title": "One React application, owned by Rust",
+    "excerpt": "ZapJS keeps the Next.js-style application model while moving the runtime, build graph and deployment artifact ownership into Rust.",
+    "tags": ["architecture", "deployment"],
     "paragraphs": [
-      "ZapJS builds one React application. Pages and nested layouts live in app/, interactive components declare use client, and route.ts modules export Web Request/Response handlers.",
-      "The compiler produces React Server Component payloads, streamed HTML, browser chunks and a versioned route graph. Vercel receives static output and a Node 22 managed function through its Build Output API.",
-      "The previous Rust HTTP listener and Splice process bridge have been removed. Optional Rust code loads as a Node-API module within the managed invocation. A JavaScript-only application does not require a Rust compiler.",
-      "This website runs on that same framework. Its examples make real HTTP requests; its blog pages are explicitly prerendered. The framework snapshot is unreleased and is distributed here as a local-install package, not as a claimed public npm release."
+      "ZapJS is built around one application graph. Pages, layouts, route handlers, server actions, client references, browser chunks, static assets and cache metadata are produced from the same model.",
+      "Rust owns request admission, route dispatch, body limits, response streaming, cancellation and host capabilities. React remains real React JavaScript, executed inside a Rust-controlled engine for server work.",
+      "The target deployment is still one managed project output. Users should not operate a separate Zap server, public RPC process, Splice daemon or sidecar to deploy a normal application.",
+      "The current repository contains the Rust foundation crates for routing, Splice, rendering and TSX bundling. The remaining work is connecting those crates into the full React SSR, Flight, hydration, actions and managed deployment vertical slice."
     ],
     "author": "ZapJS",
     "publishedAt": "2026-09-30",
     "sources": [
-      {
-        "label": "Architecture and supported scope",
-        "href": "/docs#architecture"
-      },
-      {
-        "label": "Deployment instructions",
-        "href": "/docs#deployment"
-      }
+      { "label": "Architecture", "href": "/docs#architecture" },
+      { "label": "Implementation status", "href": "/docs#status" }
     ]
   },
   {
-    "id": "native-functions",
-    "slug": "native-functions",
-    "title": "Calling Rust inside a ZapJS request",
-    "excerpt": "A typed native boundary with checked input and bounded work, demonstrated by this site.",
-    "tags": [
-      "rust",
-      "native"
-    ],
+    "id": "splice-boundary",
+    "slug": "splice-boundary",
+    "title": "Splice is an internal Rust boundary",
+    "excerpt": "Splice exists for process isolation and replacement inside the framework, not as a user-operated backend.",
+    "tags": ["rust", "runtime"],
     "paragraphs": [
-      "The Rust Computation example sends an array to a ZapJS route handler. That handler validates the request and calls sumNumbers imported from zap:native. The implementation is a compiled napi-rs function, not a mocked response or a remote Rust service.",
-      "The Rust function validates unsigned 32-bit inputs and checked addition. Work executes through the packaged zap-native compute pool, which bounds admitted work. Its cancellation is cooperative: native code checks a token; a browser disconnect or an abandoned JavaScript promise does not automatically cancel this native call.",
-      "Adding a few integers is a binding demonstration, not evidence that native code is faster for tiny tasks. Use Rust when profiling identifies substantial compute or when your application already has a native library.",
-      "Managed native builds run on the deployment target. This site compiles its addon on Linux for Vercel; a macOS development binary cannot be uploaded as a Linux function artifact."
+      "Splice version 2 is a bounded Rust-to-Rust transport. It supports unary invocation, typed remote errors, negotiated frame limits, max in-flight admission, deadlines, cancellation and connection-failure cleanup.",
+      "That boundary is useful when ZapJS needs worker isolation or binary replacement. It is not a public API server and it is not required as a separate service for ordinary deployments.",
+      "Streaming is not advertised until credit-based stream backpressure is implemented and tested. The current contract deliberately names only the behavior the transport already proves.",
+      "Most application work should stay in direct Rust calls inside the managed function artifact unless a measured isolation or replacement need justifies a worker boundary."
     ],
     "author": "ZapJS",
     "publishedAt": "2026-09-30",
     "sources": [
-      {
-        "label": "Native Rust contracts and examples",
-        "href": "/docs#native"
-      },
-      {
-        "label": "Try the real Rust endpoint",
-        "href": "/examples"
-      }
+      { "label": "Splice contract", "href": "/docs#splice" },
+      { "label": "Runtime boundaries", "href": "/docs#runtime" }
     ]
   },
   {
     "id": "measuring-performance",
     "slug": "measuring-performance",
-    "title": "Publishing measurements without inventing a speedup",
-    "excerpt": "What the recorded Next.js comparison establishes—and what it does not.",
-    "tags": [
-      "performance",
-      "verification"
-    ],
+    "title": "Performance claims need production evidence",
+    "excerpt": "ZapJS optimizes the full request path, but speed claims require matched workloads and measured artifacts.",
+    "tags": ["performance", "verification"],
     "paragraphs": [
-      "The recorded comparison uses matching synthetic fixture source for React pages and HTTP endpoints, with Next.js 16.3.8 and React 19.3.0. Across both framework orders, it recorded 6,400 load-test requests and zero recorded errors. The dynamic HTML chart displays 800 of those requests; warm-up and fresh-process measurements are counted separately. The fixture does not benchmark native Rust.",
-      "The shared host was heavily contended. The measured timings varied substantially as competing work changed, so these runs do not establish a reliable framework speed advantage.",
-      "The Performance section displays both recorded orders and links to raw measurements. Fetching these records does not turn them into a live benchmark of this website.",
-      "Deployment latency, application data access and browser experience require their own measurements. Treat the local fixture as a reproducible starting point, not a production capacity promise."
+      "The fastest framework architecture is the one that removes work before optimizing what remains. ZapJS starts with prerendering, cache policy, smaller browser bundles, waterfall removal and streaming backpressure.",
+      "Rust is used where profiling shows substantial CPU work, lifecycle control, artifact packaging or runtime isolation benefits. A fast router or isolated transport measurement is not page latency evidence.",
+      "Production claims require equivalent behavior, pinned framework versions, cold and warm measurements, memory, CPU, throughput, client JavaScript transfer, browser-visible rendering and error rates under a stated load target.",
+      "Until those measurements exist for the Rust-owned vertical slice, the website should present architecture and verification status rather than universal speedups."
     ],
     "author": "ZapJS",
     "publishedAt": "2026-09-30",
     "sources": [
-      {
-        "label": "Full measurement methodology and limits",
-        "href": "/docs#performance"
-      },
-      {
-        "label": "ZapJS-first raw record",
-        "href": "/benchmarks/benchmark-safe.json"
-      },
-      {
-        "label": "Next.js-first raw record",
-        "href": "/benchmarks/benchmark-safe-reverse.json"
-      }
+      { "label": "Performance policy", "href": "/docs#performance" },
+      { "label": "Verification evidence", "href": "/docs#verification" }
     ]
   }
 ]

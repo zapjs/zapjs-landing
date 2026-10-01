@@ -2,10 +2,8 @@
 import { motion } from 'framer-motion';
 import { Zap, Github, ArrowLeft } from 'lucide-react';
 import Examples from '../components/Examples';
-import { Link } from '@zap-js/client';
-import ActionDemo from '../../app/examples/action-demo';
 
-export default function ExamplesPage({ initialPreference }: { initialPreference?: 'compact' | 'comfortable' }) {
+export default function ExamplesPage() {
 
   return (
     <div className="min-h-screen bg-carbon-950">
@@ -28,7 +26,7 @@ export default function ExamplesPage({ initialPreference }: { initialPreference?
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            <a href="/" className="flex items-center gap-2 group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -44,16 +42,16 @@ export default function ExamplesPage({ initialPreference }: { initialPreference?
                   Zap<span className="text-zap-400">JS</span>
                 </span>
               </motion.div>
-            </Link>
+            </a>
 
             {/* Navigation Links */}
             <div className="flex items-center gap-6">
-              <Link
+              <a
                 href="/docs"
                 className="text-sm font-medium text-carbon-400 hover:text-white transition-colors"
               >
                 Docs
-              </Link>
+              </a>
               <span className="text-sm font-medium text-zap-400">Examples</span>
             </div>
 
@@ -71,13 +69,13 @@ export default function ExamplesPage({ initialPreference }: { initialPreference?
                 <span className="hidden sm:inline">GitHub</span>
               </motion.a>
 
-              <Link
+              <a
                 href="/"
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 hover:from-zap-400 hover:to-zap-500 text-white text-sm font-semibold rounded-full shadow-lg shadow-zap-500/25 transition-all duration-300"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Home
-              </Link>
+              </a>
             </div>
           </div>
         </nav>
@@ -85,8 +83,7 @@ export default function ExamplesPage({ initialPreference }: { initialPreference?
 
       {/* Content */}
       <div className="relative z-10 pt-24">
-        <Examples density={initialPreference} />
-        <ActionDemo initialPreference={initialPreference} />
+        <Examples />
       </div>
     </div>
   );

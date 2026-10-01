@@ -40,7 +40,6 @@ function CodeBlock({ block }: { block: Extract<DocumentationBlock, { type: 'code
   </div>;
 }
 function Block({ block }: { block: DocumentationBlock }) {
-  if (block.type === 'download') return <a href={block.href} download className="inline-flex items-center px-5 py-3 mb-6 rounded-xl bg-zap-500 text-white font-semibold hover:bg-zap-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">{block.text}</a>;
   if (block.type === 'code') return <CodeBlock block={block} />;
   if (block.type === 'heading') return <h2 className="font-display font-bold text-2xl sm:text-3xl text-white mt-12 mb-4">{block.text}</h2>;
   if (block.type === 'paragraph') return <p className="text-carbon-300 leading-relaxed mb-4">{block.text}</p>;
@@ -55,7 +54,7 @@ const icons: Record<string, DocSection['icon']> = {
 };
 function sectionContent(title: string, summary: string, blocks: DocumentationBlock[]): ReactNode {
   return <article>
-    <p className="text-xs font-semibold uppercase tracking-wider text-zap-400 mb-4">ZapJS 0.3 · Package documentation</p>
+    <p className="text-xs font-semibold uppercase tracking-wider text-zap-400 mb-4">ZapJS · Rust-owned implementation</p>
     <h1 className="font-display font-black text-4xl sm:text-5xl text-white mb-6">{title}</h1>
     <p className="text-xl text-carbon-400 leading-relaxed mb-8">{summary}</p>
     {blocks.map((block, index) => <Block key={index} block={block} />)}

@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react';
-import { Link } from '@zap-js/client';
 import posts from '../../content/posts';
 export default function BlogPost({post}:{post:typeof posts[number]}){
  const relatedPosts=posts.filter(value=>value.id!==post.id);
@@ -20,13 +19,13 @@ export default function BlogPost({post}:{post:typeof posts[number]}){
           transition={{ duration: 0.5 }}
         >
           {/* Back link */}
-          <Link
+          <a
             href="/blog"
             className="inline-flex items-center gap-2 text-carbon-400 hover:text-white mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </Link>
+          </a>
 
           {/* Header */}
           <header className="mb-8">
@@ -77,7 +76,7 @@ export default function BlogPost({post}:{post:typeof posts[number]}){
               <h2 className="text-xl font-semibold text-white mb-6">Related Posts</h2>
               <div className="grid gap-4">
                 {relatedPosts.map((related) => (
-                  <Link
+                  <a
                     key={related.id}
                     href={`/blog/${related.slug}`}
                     className="block p-4 bg-carbon-900/50 border border-carbon-800 rounded-lg hover:border-zap-500/50 transition-all duration-300"
@@ -86,7 +85,7 @@ export default function BlogPost({post}:{post:typeof posts[number]}){
                       {related.title}
                     </h3>
                     <p className="text-sm text-carbon-400">{related.excerpt}</p>
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>

@@ -1,2 +1,1 @@
-import { Link } from '@zap-js/client';
-export default function NotFound() { return <main className="min-h-screen grid place-content-center text-center gap-6 p-8"><h1 className="text-4xl font-display font-bold">Page not found</h1><p className="text-carbon-400">This address does not belong to the ZapJS website.</p><Link className="text-zap-400" href="/">Back to ZapJS</Link></main>; }
+export default function NotFound() { return <main className="min-h-screen grid place-content-center text-center gap-6 p-8"><h1 className="text-4xl font-display font-bold">Page not found</h1><p className="text-carbon-400">This address does not belong to the ZapJS website.</p><a className="text-zap-400" href="/">Back to ZapJS</a></main>; }
