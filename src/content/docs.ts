@@ -50,9 +50,9 @@ export const documentation: DocumentationSection[] = [
     p('Route handlers and actions need explicit admission: body limits, request context, authorization hooks, cancellation, typed errors and public/private cache policy must be enforced before application code mutates state.'),
     p('Public prerendering and shared cache metadata belong to the graph. Request-local memoization is scoped to one request; cross-instance invalidation requires an adapter-backed store with deployment-specific namespace and versioning.'),
   ] },
-  { id: 'deployment', title: 'Deployment', summary: 'One managed project output, Rust-managed artifacts, no separate service.', blocks: [
+  { id: 'deployment', title: 'Deployment', summary: 'One managed project output with Rust-managed artifacts.', blocks: [
     p('The target deployment is one project output lowered into the host artifact format: static assets, browser chunks, server bundles, route manifest, cache metadata and Rust-managed dynamic function artifacts.'),
-    p('Users should not run a separate Zap backend, Splice service, queue worker or sidecar for a normal application deployment. Any worker lifecycle is owned by the framework.'),
+    p('ZapJS owns the normal application deployment boundary and any worker lifecycle it needs.'),
     p('Managed deployment evidence must prove the actual artifact, process runtime, response streaming, request aborts, static assets and instance reuse on the target platform.'),
   ] },
   { id: 'performance', title: 'Performance', summary: 'Measure the full path before claiming speed.', blocks: [

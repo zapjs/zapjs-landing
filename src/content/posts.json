@@ -26,7 +26,7 @@
     "tags": ["rust", "runtime"],
     "paragraphs": [
       "Splice version 2 is a bounded Rust-to-Rust transport. It supports unary invocation, typed remote errors, negotiated frame limits, max in-flight admission, deadlines, cancellation and connection-failure cleanup.",
-      "That boundary is useful when ZapJS needs worker isolation or binary replacement. It is not a public API server and it is not required as a separate service for ordinary deployments.",
+      "That boundary is useful when ZapJS needs worker isolation or binary replacement. It stays inside framework-owned lifecycle management for ordinary deployments.",
       "Streaming is not advertised until credit-based stream backpressure is implemented and tested. The current contract deliberately names only the behavior the transport already proves.",
       "Most application work should stay in direct Rust calls inside the managed function artifact unless a measured isolation or replacement need justifies a worker boundary."
     ],

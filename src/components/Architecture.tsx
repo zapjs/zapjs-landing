@@ -52,7 +52,7 @@ const flows = [
   },
   {
     title: 'Native work',
-    description: 'Application Rust work belongs to Rust-owned functions or host operations. It is not a public add-on API and does not require a separate service.',
+    description: 'Application Rust work belongs to Rust-owned functions or host operations. It is framework-owned infrastructure, not a public add-on API.',
   },
 ];
 
