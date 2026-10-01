@@ -44,7 +44,7 @@
     "excerpt": "ZapJS optimizes the full request path, but speed claims require matched workloads and measured artifacts.",
     "tags": ["performance", "verification"],
     "paragraphs": [
-      "The fastest framework architecture is the one that removes work before optimizing what remains. ZapJS starts with prerendering, cache policy, smaller browser bundles, waterfall removal and measured streaming backpressure.",
+      "The fastest framework architecture is the one that removes work before optimizing what remains. ZapJS starts with prerendering, explicit cache policy, smaller browser bundles and waterfall removal; streaming backpressure is not a public claim until the final pipeline proves it.",
       "Rust is used where profiling shows substantial CPU work, lifecycle control, artifact packaging or runtime isolation benefits. A fast router or isolated transport measurement is not page latency evidence.",
       "Production claims require equivalent behavior, pinned framework versions, cold and warm measurements, memory, CPU, throughput, client JavaScript transfer, browser-visible rendering and error rates under a stated load target.",
       "Until those measurements exist for the Rust-owned vertical slice, the website should present architecture and verification status rather than universal speedups."

@@ -19,7 +19,7 @@ export default function BlogIndex(){
         >
           <h1 className="text-4xl font-bold text-white mb-4">Blog</h1>
           <p className="text-lg text-carbon-400 mb-12">
-            Learn about ZapJS, fullstack development, and Rust + TypeScript patterns.
+            Read the current ZapJS architecture notes, verification policy and Rust-owned React implementation status.
           </p>
         </motion.div>
 
