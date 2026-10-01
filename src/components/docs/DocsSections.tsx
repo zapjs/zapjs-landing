@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { Book, Layers, Zap, Workflow, Cpu, FileCode2, Rocket, Check, Copy } from 'lucide-react';
+import { Book, Layers, Zap, Workflow, Cpu, FileCode2, Rocket, Check, Copy, Terminal } from 'lucide-react';
 import { cn, highlightCode, tokensToHtml } from '../../lib/utils';
 import { documentation, type DocumentationBlock } from '../../content/docs';
 import type { DocSection } from './DocsLayout';

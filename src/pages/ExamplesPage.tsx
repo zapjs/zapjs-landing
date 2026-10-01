@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Zap, Github, ArrowLeft } from 'lucide-react';
+import { Zap, Code2, ArrowLeft } from 'lucide-react';
 import Examples from '../components/Examples';
 
 export default function ExamplesPage() {
@@ -64,7 +64,7 @@ export default function ExamplesPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Github className="w-4 h-4" />
+                <Code2 className="w-4 h-4" />
                 <span className="hidden sm:inline">GitHub</span>
               </motion.a>
 

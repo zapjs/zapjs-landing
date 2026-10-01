@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Zap, Github, Menu, X } from 'lucide-react';
+import { Zap, Code2, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function Navbar() {
@@ -107,7 +107,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <Github className="w-4 h-4" />
+              <Code2 className="w-4 h-4" />
               <span>GitHub</span>
             </motion.a>
 
@@ -180,7 +180,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-2.5 border border-carbon-700 text-carbon-300 rounded-lg hover:bg-carbon-800/50 transition-colors"
               >
-                <Github className="w-4 h-4" />
+                <Code2 className="w-4 h-4" />
                 <span>GitHub</span>
               </a>
               <a

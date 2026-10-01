@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Zap, Github, BookOpen, Code2 } from 'lucide-react';
+import { Zap, Code2, BookOpen } from 'lucide-react';
 
 const footerLinks = [
   { title: 'Framework', links: [
@@ -54,7 +54,7 @@ export default function Footer() {
 
             <div className="mt-6 flex items-center gap-3">
               <a href="https://github.com/zapjs/zapjs" aria-label="ZapJS on GitHub" target="_blank" rel="noopener noreferrer" className="p-2 bg-carbon-800 hover:bg-carbon-700 rounded-lg transition-colors">
-                <Github className="w-5 h-5 text-carbon-400 hover:text-white" />
+                <Code2 className="w-5 h-5 text-carbon-400 hover:text-white" />
               </a>
               <a href="/docs" aria-label="Documentation" className="p-2 bg-carbon-800 hover:bg-carbon-700 rounded-lg transition-colors">
                 <BookOpen className="w-5 h-5 text-carbon-400 hover:text-white" />

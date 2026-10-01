@@ -9,7 +9,7 @@ import {
   X,
   Search,
   ExternalLink,
-  Github
+  Code2
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -176,7 +176,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Github className="w-4 h-4" />
+                <Code2 className="w-4 h-4" />
                 <span>GitHub</span>
               </motion.a>
 
