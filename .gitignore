@@ -1,23 +1,12 @@
-# Dependencies
 node_modules/
-package-lock.json
-
-# Build output
-/dist
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+.zap/
+.vercel/
+.verification/
+native/target/
+*.node
+.env*
+!.env.example
 .DS_Store
-
-# Environment
-.env
-.env.local
-
-# Logs
 *.log
-
-# Fly.io
-.fly/
+public/downloads/
+.fozzy/

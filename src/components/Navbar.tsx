@@ -1,13 +1,13 @@
+'use client';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Zap, Github, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { Link, useRouter, usePathname } from '../router';
+import { Link, usePathname } from '@zap-js/client';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -19,9 +19,9 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Features', href: '#features', isRoute: false },
-    { label: 'Performance', href: '#performance', isRoute: false },
-    { label: 'Code', href: '#code', isRoute: false },
+    { label: 'Features', href: '/#features', isRoute: false },
+    { label: 'Performance', href: '/#performance', isRoute: false },
+    { label: 'Code', href: '/#code', isRoute: false },
     { label: 'Examples', href: '/examples', isRoute: true },
     { label: 'Docs', href: '/docs', isRoute: true },
   ];
@@ -42,7 +42,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <motion.a
-            href="#"
+            href="/"
             className="flex items-center gap-2 group"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -69,7 +69,7 @@ export default function Navbar() {
                   transition={{ delay: i * 0.1 }}
                 >
                   <Link
-                    to={link.href}
+                    href={link.href}
                     className={cn(
                       "px-4 py-2 text-sm font-medium transition-colors relative group block",
                       pathname === link.href ? "text-zap-400" : "text-carbon-400 hover:text-white"
@@ -113,7 +113,7 @@ export default function Navbar() {
             </motion.a>
 
             <motion.a
-              href="#get-started"
+              href="/#get-started"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -126,6 +126,10 @@ export default function Navbar() {
 
             {/* Mobile menu button */}
             <button
+              type="button"
+              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-carbon-400 hover:text-white transition-colors"
             >
@@ -141,6 +145,8 @@ export default function Navbar() {
             height: isMobileMenuOpen ? 'auto' : 0,
             opacity: isMobileMenuOpen ? 1 : 0,
           }}
+          id="mobile-navigation"
+          inert={!isMobileMenuOpen}
           className="md:hidden overflow-hidden"
         >
           <div className="py-4 space-y-2 border-t border-carbon-800/50">
@@ -148,7 +154,7 @@ export default function Navbar() {
               link.isRoute ? (
                 <Link
                   key={link.href}
-                  to={link.href}
+                  href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
                     "block px-4 py-2 hover:bg-carbon-800/50 rounded-lg transition-colors",
@@ -179,7 +185,7 @@ export default function Navbar() {
                 <span>GitHub</span>
               </a>
               <a
-                href="#get-started"
+                href="/#get-started"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 text-white font-semibold rounded-lg"
               >

@@ -1,57 +1,62 @@
+'use client';
+
+import { frameworkArchive } from '../content/framework';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Rocket, Copy, Check, Terminal, ArrowRight, Folder, FileCode, Server } from 'lucide-react';
 
 const steps = [
   {
-    command: 'npx create-zap-app my-app',
-    description: 'Scaffold a new project',
+    command: 'npm exec --package ./zap-js-client-0.3.0.tgz -- zap new my-app --no-install',
+    description: 'From the folder containing your downloaded snapshot, scaffold the app.',
   },
   {
-    command: 'cd my-app && bun install',
-    description: 'Install dependencies',
+    command: 'cd my-app\nmkdir vendor\ncp ../zap-js-client-0.3.0.tgz vendor/\nnpm install ./vendor/zap-js-client-0.3.0.tgz',
+    description: 'Install the local framework package and application dependencies.',
   },
   {
-    command: 'bun run dev',
-    description: 'Start dev server',
+    command: 'npm run dev',
+    description: 'Start the app, then open the address printed in your terminal.',
   },
 ];
 
 const projectStructure = [
-  { type: 'folder', name: 'routes/', indent: 0, description: 'File-based routing' },
-  { type: 'file', name: '__root.tsx', indent: 1, description: 'Root layout' },
-  { type: 'file', name: 'index.tsx', indent: 1, description: 'Home page (/)' },
-  { type: 'folder', name: 'api/', indent: 1, description: 'API routes' },
-  { type: 'file', name: 'hello.ts', indent: 2, description: '/api/hello' },
-  { type: 'folder', name: 'server/', indent: 0, description: 'Rust handlers' },
-  { type: 'file', name: 'lib.rs', indent: 1, description: '#[zap::export] functions' },
-  { type: 'folder', name: 'src/', indent: 0, description: 'React components' },
-  { type: 'folder', name: 'generated/', indent: 1, description: 'Auto-generated types' },
-  { type: 'file', name: 'package.json', indent: 0, description: 'Dependencies' },
-  { type: 'file', name: 'Cargo.toml', indent: 0, description: 'Rust config' },
-  { type: 'file', name: 'zap.config.ts', indent: 0, description: 'ZapJS config' },
+  { type: 'folder', name: 'app/', indent: 0, description: 'Application routes' },
+  { type: 'file', name: 'layout.tsx', indent: 1, description: 'Root HTML document' },
+  { type: 'file', name: 'page.tsx', indent: 1, description: 'Server component at /' },
+  { type: 'file', name: 'counter.tsx', indent: 1, description: 'Interactive client component' },
+  { type: 'folder', name: 'api/health/', indent: 1, description: 'Web API route' },
+  { type: 'file', name: 'route.ts', indent: 2, description: 'Exports GET with a Response' },
+  { type: 'folder', name: 'native/ (optional)', indent: 0, description: 'Added with --native' },
+  { type: 'file', name: 'Cargo.toml', indent: 1, description: 'napi-rs library dependencies' },
+  { type: 'file', name: 'src/lib.rs', indent: 1, description: 'Typed native exports' },
+  { type: 'file', name: 'package.json', indent: 0, description: 'Dependencies and CLI scripts' },
+  { type: 'file', name: 'tsconfig.json', indent: 0, description: 'Application TypeScript' },
 ];
 
 function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>('idle');
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try { await navigator.clipboard.writeText(text); setCopyStatus('copied'); }
+    catch { setCopyStatus('error'); }
   };
 
   return (
-    <button
-      onClick={handleCopy}
-      className="p-2 hover:bg-carbon-700 rounded-lg transition-colors"
-    >
-      {copied ? (
-        <Check className="w-4 h-4 text-emerald-400" />
-      ) : (
-        <Copy className="w-4 h-4 text-carbon-400" />
-      )}
-    </button>
+    <div className="flex-shrink-0 text-right">
+      <button
+        aria-label="Copy setup command"
+        onClick={handleCopy}
+        className="p-2 hover:bg-carbon-700 rounded-lg transition-colors"
+      >
+        {copyStatus === 'copied' ? (
+          <Check className="w-4 h-4 text-emerald-400" />
+        ) : (
+          <Copy className="w-4 h-4 text-carbon-400" />
+        )}
+      </button>
+      <span role="status" className="block text-xs text-carbon-400">{copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Copy failed' : ''}</span>
+    </div>
   );
 }
 
@@ -83,7 +88,7 @@ export default function GetStarted() {
           </h2>
 
           <p className="text-lg text-carbon-400 max-w-2xl mx-auto">
-            Three commands. Working fullstack app.
+            Start with the tested 0.3 package snapshot. Use Node 22.15 or newer in the Node 22 line and npm; Rust is needed only for native functions.
           </p>
         </motion.div>
 
@@ -107,6 +112,10 @@ export default function GetStarted() {
                   <span className="ml-3 text-sm text-carbon-500 font-mono">terminal</span>
                 </div>
 
+                <div className="px-4 sm:px-6 pt-6 text-sm text-carbon-400">
+                  <a href={frameworkArchive} download className="inline-flex items-center gap-2 text-zap-400 hover:text-zap-300 font-medium">Download zap-js-client-0.3.0.tgz <ArrowRight className="w-4 h-4" /></a>
+                  <p className="mt-2">Download this file first. Version 0.3 is an unpublished snapshot, installed locally rather than fetched from the npm registry.</p>
+                </div>
                 {/* Commands */}
                 <div className="p-4 sm:p-6 space-y-6">
                   {steps.map((step, i) => (
@@ -119,7 +128,7 @@ export default function GetStarted() {
                       <div className="flex items-center justify-between gap-3 p-3 bg-carbon-800/50 rounded-lg group">
                         <div className="flex items-center gap-3 min-w-0">
                           <span className="text-emerald-400 font-mono">$</span>
-                          <code className="font-mono text-sm text-white truncate">{step.command}</code>
+                          <code className="font-mono text-sm text-white whitespace-pre-wrap break-all">{step.command}</code>
                         </div>
                         <CopyButton text={step.command} />
                       </div>
@@ -136,7 +145,7 @@ export default function GetStarted() {
                   >
                     <div className="flex items-center gap-2 text-emerald-400">
                       <Check className="w-5 h-5" />
-                      <span className="font-mono text-sm">Ready! Open http://localhost:3000</span>
+                      <span className="font-mono text-sm">Then visit the local URL printed by zap dev.</span>
                     </div>
                   </motion.div>
                 </div>
@@ -162,7 +171,7 @@ export default function GetStarted() {
                 View on GitHub
               </a>
               <a
-                href="#"
+                href="/docs"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 text-white font-semibold rounded-full shadow-lg shadow-zap-500/25 hover:shadow-zap-500/40 transition-shadow"
               >
                 Read the Docs
@@ -213,7 +222,7 @@ export default function GetStarted() {
             <div className="mt-6 grid grid-cols-2 gap-4">
               {[
                 { icon: Terminal, label: 'CLI Tools', value: 'zap dev, build, routes' },
-                { icon: Server, label: 'Hot Reload', value: 'Rust + TS' },
+                { icon: Server, label: 'Optional Rust', value: 'Add --native when scaffolding' },
               ].map((item, i) => (
                 <motion.div
                   key={item.label}

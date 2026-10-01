@@ -1,0 +1,111 @@
+{
+  "recordedAt": "2026-09-30",
+  "sourceUrl": "/benchmarks/benchmark-safe.json",
+  "methodologyUrl": "/docs#performance",
+  "host": "Apple M3 Pro · 11 logical CPUs · 18 GiB · darwin/arm64, kernel 24.3.0 · Node v22.15.1 · shared, unpinned host",
+  "requests": 6400,
+  "successes": 6400,
+  "errors": 0,
+  "measurementCells": 32,
+  "warmupRequests": 320,
+  "freshProcessRequests": 12,
+  "chartRequests": 800,
+  "workload": "Dynamic RSC HTML, concurrency 16, 200 measured requests per framework per order",
+  "latency": "Full-response completion observed by the local fetch client; nearest-rank p50 and p99 over 200 successful responses per bar",
+  "versions": {
+    "zap": "0.3.0-working-tree",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "node": "v22.15.1",
+    "v8": "12.4.254.21-node.24"
+  },
+  "provenance": {
+    "git": {
+      "revision": "c6b249191dd4e23b31abbe0e1cb30d62add35020",
+      "dirty": true
+    },
+    "fixtureSha256": "69858984be330ecf96d334950943618ae0ab388c2d21249cfebdf68fcefeaf1e",
+    "fixtureHashScope": "Concatenated Zap app/page.tsx and app/api/cpu/route.ts only; not the complete application or framework",
+    "auditedHarness": "zapjs/benchmarks/compare.mjs",
+    "auditedHarnessSha256": "c59592c236ab2cf0dbbe22b3e38cac1ba5415c4d16484a549548c89d6e9ad133",
+    "limitation": "Recorded dirty working tree without a full source or build digest. These results cannot be tied uniquely to today’s framework package. Individual request timings were not retained."
+  },
+  "caveat": "Historical synthetic fixture measurements from a heavily contended host. They do not establish a reliable speed advantage and do not measure this website.",
+  "chartScaleMaxRequestsPerSecond": 1175.9103015622084,
+  "runs": [
+    {
+      "id": "benchmark-safe",
+      "label": "ZapJS first",
+      "measuredAt": "2026-09-30T22:19:45.282Z",
+      "loadAverageBefore": [
+        28.10107421875,
+        29.5283203125,
+        22.85107421875
+      ],
+      "loadAverageAfter": [
+        34.0498046875,
+        31.2705078125,
+        24.4072265625
+      ],
+      "sourceSha256": "cd70e238a4cf61b5a0165c7d93669c6cd1013c23324bfbb893f19f1087e32b66",
+      "frameworks": [
+        {
+          "name": "ZapJS",
+          "requests": 200,
+          "successes": 200,
+          "errors": 0,
+          "requestsPerSecond": 62.53536587951579,
+          "p50Ms": 246.64279199999874,
+          "p99Ms": 588.8974579999995
+        },
+        {
+          "name": "Next.js",
+          "requests": 200,
+          "successes": 200,
+          "errors": 0,
+          "requestsPerSecond": 20.04712067495328,
+          "p50Ms": 653.3866660000058,
+          "p99Ms": 1954.2384999999922
+        }
+      ],
+      "sourceUrl": "/benchmarks/benchmark-safe.json"
+    },
+    {
+      "id": "benchmark-safe-reverse",
+      "label": "Next.js first",
+      "measuredAt": "2026-09-30T22:21:53.681Z",
+      "loadAverageBefore": [
+        33.24462890625,
+        31.1494140625,
+        24.40478515625
+      ],
+      "loadAverageAfter": [
+        23.7822265625,
+        29.029296875,
+        24.046875
+      ],
+      "sourceSha256": "42be205bcbb8fb8c3eb8f68cceaffeb3e14b986d2ea55893d1888bc37662bf46",
+      "frameworks": [
+        {
+          "name": "ZapJS",
+          "requests": 200,
+          "successes": 200,
+          "errors": 0,
+          "requestsPerSecond": 1175.9103015622084,
+          "p50Ms": 12.188874999999825,
+          "p99Ms": 30.448207999994338
+        },
+        {
+          "name": "Next.js",
+          "requests": 200,
+          "successes": 200,
+          "errors": 0,
+          "requestsPerSecond": 130.92878971206767,
+          "p50Ms": 100.80362500000047,
+          "p99Ms": 300.0711249999986
+        }
+      ],
+      "sourceUrl": "/benchmarks/benchmark-safe-reverse.json"
+    }
+  ]
+}

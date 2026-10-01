@@ -1,3 +1,5 @@
+'use client';
+
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Layers, ArrowRight, Zap, FileCode, Server, Globe, Database, Cpu } from 'lucide-react';
@@ -5,35 +7,35 @@ import { Layers, ArrowRight, Zap, FileCode, Server, Globe, Database, Cpu } from 
 const architectureLayers = [
   {
     id: 'client',
-    label: 'React Frontend',
+    label: 'Browser + Static Assets',
     icon: Globe,
     color: 'sky',
-    description: 'Your components call server.* functions with full types',
-    items: ['Components', 'Routes', 'server.*'],
+    description: 'Client components hydrate; public prerendered pages and assets can be served by the CDN.',
+    items: ['Hydration', 'Navigation', 'CDN'],
   },
   {
     id: 'runtime',
-    label: 'ZapJS Runtime',
+    label: 'React Application Runtime',
     icon: Zap,
     color: 'zap',
-    description: 'Serializes calls, handles routing, manages hot reload',
-    items: ['RPC', 'Router', 'HMR'],
+    description: 'The route graph connects server components, actions and Web Request/Response handlers.',
+    items: ['RSC', 'Actions', 'route.ts'],
   },
   {
     id: 'rust',
-    label: 'Rust Handlers',
+    label: 'Optional Native Rust',
     icon: Server,
     color: 'rust',
-    description: 'Your async functions marked with #[zap::export]',
-    items: ['Handlers', 'Types', 'async/await'],
+    description: 'Server code imports napi-rs exports through zap:native inside the Node process.',
+    items: ['Node-API 8', 'Typed Imports', 'Bounded SDK Tasks'],
   },
   {
-    id: 'hyper',
-    label: 'Hyper + Tokio',
+    id: 'managed',
+    label: 'Managed Node Function',
     icon: Cpu,
     color: 'violet',
-    description: 'Production-grade async HTTP server',
-    items: ['HTTP/1 & 2', 'Async I/O', 'Zero-copy'],
+    description: 'Vercel Node 22 runs the traced server artifact and matching Linux native addon.',
+    items: ['Node 22', 'Lazy Route Chunks', 'Linux GNU'],
   },
 ];
 
@@ -119,7 +121,7 @@ export default function Architecture() {
           </h2>
 
           <p className="text-lg text-carbon-400 max-w-3xl mx-auto">
-            React calls Rust through generated RPC bindings. Types stay in sync automatically.
+            One React application produces browser assets, server rendering and optional native functions.
           </p>
         </motion.div>
 
@@ -147,22 +149,22 @@ export default function Architecture() {
               {[
                 {
                   title: 'Request Flow',
-                  description: 'React calls server.* functions. ZapJS serializes the call, routes to Rust, returns typed response.',
+                  description: 'Dynamic pages and route handlers run in the managed function; prerendered pages can be served as static output. Server code can call Rust through Node-API.',
                   icon: ArrowRight,
                 },
                 {
                   title: 'Type Generation',
-                  description: 'Save a Rust file. Types extracted from #[zap::export]. TypeScript definitions generated.',
+                  description: 'Compile napi-rs exports to generate declarations for zap:native. Native modules stay server-side; client imports fail compilation.',
                   icon: FileCode,
                 },
                 {
                   title: 'Dev Mode',
-                  description: 'Edit Rust or React. Both hot reload. Rust rebuilds incrementally.',
+                  description: 'Vite updates React modules. Rust edits trigger a native rebuild and local runtime restart so the new addon is loaded.',
                   icon: Zap,
                 },
                 {
                   title: 'Production',
-                  description: 'One binary. Static assets embedded. Deploy anywhere.',
+                  description: 'The initial adapter emits Vercel Build Output: static files and one dynamic Node function. Native builds must match the deployment platform.',
                   icon: Database,
                 },
               ].map((feature, i) => (
@@ -193,7 +195,7 @@ export default function Architecture() {
             >
               <p className="text-carbon-300 text-sm leading-relaxed">
                 <span className="text-white font-semibold">This site</span> is a ZapJS project.
-                File-based routing, Rust backend, auto-generated types.
+                It uses React components, Web route handlers and an optional Rust addon in the same application.
               </p>
             </motion.div>
           </motion.div>

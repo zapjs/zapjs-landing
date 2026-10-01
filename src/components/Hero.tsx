@@ -1,8 +1,16 @@
+'use client';
+
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { frameworkArchive } from '../content/framework';
 import { ArrowRight, Zap, Terminal, Sparkles } from 'lucide-react';
 
 export default function Hero() {
+  const [copyStatus, setCopyStatus] = useState('Copy');
+  async function copySource() {
+    try { await navigator.clipboard.writeText(`curl -fL ${window.location.origin}${frameworkArchive} -o zap-js-client-0.3.0.tgz`); setCopyStatus('Copied'); }
+    catch { setCopyStatus('Copy failed'); }
+  }
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -47,9 +55,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight"
           >
-            <span className="block text-white">Fullstack at the</span>
+            <span className="block text-white">React. Rust.</span>
             <span className="block mt-2">
-              <span className="text-gradient">Speed of Rust</span>
+              <span className="text-gradient">One application.</span>
             </span>
           </motion.h1>
 
@@ -60,10 +68,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-8 text-lg sm:text-xl md:text-2xl text-carbon-400 max-w-3xl mx-auto leading-relaxed"
           >
-            <span className="text-rust-400 font-medium">Rust</span> server,{' '}
-            <span className="text-sky-400 font-medium">React</span> frontend,{' '}
-            <span className="text-zap-400 font-medium">zero</span> glue code.
-            Auto-generated TypeScript bindings from your Rust handlers.
+            <span className="text-sky-400 font-medium">React</span> pages and server actions.{' '}
+            <span className="text-rust-400 font-medium">Rust</span> functions when you need native code.{' '}
+            One build for static assets and managed <span className="text-zap-400 font-medium">Node</span> execution.
           </motion.p>
 
           {/* Stats */}
@@ -74,9 +81,9 @@ export default function Hero() {
             className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-12"
           >
             {[
-              { value: '20ns', label: 'Route Lookup' },
-              { value: '<1ms', label: 'Response Time' },
-              { value: '~4MB', label: 'Binary Size' },
+              { value: 'React', label: 'Server + Client Components' },
+              { value: 'Node-API', label: 'Optional Native Rust' },
+              { value: 'Vercel', label: 'Node 22 Deployment' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="font-display font-bold text-3xl sm:text-4xl text-white">
@@ -131,18 +138,20 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-12"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-carbon-900/80 backdrop-blur-sm border border-carbon-800 rounded-xl">
-              <span className="text-carbon-500 text-sm">$</span>
-              <code className="font-mono text-sm sm:text-base text-carbon-200">
-                npx create-zap-app my-app
-              </code>
+            <div className="inline-flex max-w-full items-center gap-3 px-6 py-3 bg-carbon-900/80 backdrop-blur-sm border border-carbon-800 rounded-xl">
+              <Terminal className="w-4 h-4 text-carbon-500 flex-shrink-0" />
+              <a href={frameworkArchive} download className="font-mono text-left text-sm sm:text-base text-carbon-200 hover:text-white">
+                Download the 0.3 package snapshot
+              </a>
               <button
-                onClick={() => navigator.clipboard.writeText('npx create-zap-app my-app')}
+                onClick={copySource}
+                aria-label="Copy snapshot download command"
                 className="px-3 py-1 text-xs font-medium text-carbon-400 hover:text-white bg-carbon-800 hover:bg-carbon-700 rounded-md transition-colors"
               >
-                Copy
+                {copyStatus}
               </button>
             </div>
+            <p role="status" className="mt-3 text-sm text-carbon-500">Unpublished snapshot; not an npm release. <a href="#get-started" className="text-zap-400 hover:underline">Follow the local package setup.</a>{copyStatus === 'Copy failed' ? ' Clipboard unavailable; use the download link above.' : copyStatus === 'Copied' ? ' Download command copied.' : ''}</p>
           </motion.div>
         </div>
       </motion.div>

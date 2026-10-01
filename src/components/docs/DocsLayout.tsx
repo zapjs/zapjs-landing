@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import {
@@ -11,13 +13,15 @@ import {
   Github
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { Link, useRouter } from '../../router';
+import { Link } from '@zap-js/client';
 
 export interface DocSection {
   id: string;
   title: string;
   icon: React.ElementType;
   content: React.ReactNode;
+  summary: string;
+  searchText: string;
 }
 
 interface DocsLayoutProps {
@@ -36,8 +40,8 @@ const sidebarCategories = [
     items: ['architecture', 'routing', 'client-router', 'ssg', 'api-routes'],
   },
   {
-    label: 'Data & RPC',
-    items: ['enhanced-rpc', 'server-functions'],
+    label: 'Server & Native',
+    items: ['server-functions', 'native'],
   },
   {
     label: 'Production',
@@ -53,13 +57,13 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -68,12 +72,19 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
   const nextSection = currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
   const activeSection = sections.find(s => s.id === currentSection);
 
-  const filteredSections = searchQuery
-    ? sections.filter(s =>
-        s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.id.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : null;
+  const terms = searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const filteredSections = terms.length ? sections.filter(section => terms.every(term => section.searchText.toLowerCase().includes(term))) : null;
+  const selectResult = (id: string) => { onSectionChange(id); setSearchQuery(''); setSidebarOpen(false); };
+  const searchKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') setSearchQuery('');
+    if (event.key === 'Enter' && filteredSections?.[0]) { event.preventDefault(); selectResult(filteredSections[0].id); }
+  };
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') setSidebarOpen(false); };
+    window.addEventListener('keydown', escape);
+    return () => window.removeEventListener('keydown', escape);
+  }, [sidebarOpen]);
 
   return (
     <div className="min-h-screen bg-carbon-950">
@@ -92,7 +103,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-2 group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -111,8 +122,8 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
             </Link>
 
             {/* Doc Section Navigation */}
-            <div className="flex items-center gap-1 overflow-x-auto">
-              {sections.slice(0, 6).map((section, i) => (
+            <div className="flex items-center gap-1">
+              {sections.slice(0, 4).map((section, i) => (
                 <motion.button
                   key={section.id}
                   onClick={() => onSectionChange(section.id)}
@@ -133,13 +144,13 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                   )} />
                 </motion.button>
               ))}
-              {sections.length > 6 && (
+              {sections.length > 4 && (
                 <div className="relative group">
-                  <button className="px-3 py-2 text-sm font-medium text-carbon-400 hover:text-white transition-colors">
+                  <button type="button" className="px-3 py-2 text-sm font-medium text-carbon-400 hover:text-white transition-colors" aria-label="More documentation sections">
                     More...
                   </button>
-                  <div className="absolute right-0 top-full mt-2 py-2 bg-carbon-900/95 backdrop-blur-xl border border-carbon-800/50 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                    {sections.slice(6).map((section) => (
+                  <div className="absolute right-0 top-full mt-2 py-2 bg-carbon-900/95 backdrop-blur-xl border border-carbon-800/50 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all">
+                    {sections.slice(4).map((section) => (
                       <button
                         key={section.id}
                         onClick={() => onSectionChange(section.id)}
@@ -176,7 +187,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
               </motion.a>
 
               <Link
-                to="/"
+                href="/"
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 hover:from-zap-400 hover:to-zap-500 text-white text-sm font-semibold rounded-full shadow-lg shadow-zap-500/25 transition-all duration-300"
               >
                 Back to Home
@@ -191,12 +202,14 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
         <div className="flex items-center justify-between px-4 h-16">
           <button
             onClick={() => setSidebarOpen(true)}
+            aria-label="Open documentation menu"
+            aria-expanded={sidebarOpen}
             className="p-2 text-carbon-400 hover:text-white transition-colors"
           >
             <Menu className="w-6 h-6" />
           </button>
           <Link
-            to="/"
+            href="/"
             className="flex items-center gap-2"
           >
             <div className="w-7 h-7 bg-gradient-to-br from-zap-400 to-zap-600 rounded-lg flex items-center justify-center">
@@ -239,6 +252,8 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
       {/* Mobile Sidebar */}
       <motion.aside
         initial={false}
+        inert={!sidebarOpen}
+        aria-label="Documentation navigation"
         animate={{ x: sidebarOpen ? 0 : '-100%' }}
         className="fixed top-0 left-0 bottom-0 w-80 bg-carbon-950 border-r border-carbon-800/50 z-50 lg:hidden"
       >
@@ -246,7 +261,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b border-carbon-800/50">
             <Link
-              to="/"
+              href="/"
               className="flex items-center gap-2 group"
             >
               <div className="relative">
@@ -261,6 +276,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
+              aria-label="Close documentation menu"
               className="p-2 text-carbon-400 hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
@@ -272,7 +288,9 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-carbon-500" />
               <input
-                type="text"
+                type="search"
+                aria-label="Search documentation"
+                onKeyDown={searchKeyboard}
                 placeholder="Search documentation..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -292,14 +310,12 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                     <button
                       key={section.id}
                       onClick={() => {
-                        onSectionChange(section.id);
-                        setSearchQuery('');
-                        setSidebarOpen(false);
+                        selectResult(section.id);
                       }}
                       className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm text-carbon-300 hover:text-white hover:bg-carbon-800/50 transition-colors"
                     >
                       <section.icon className="w-4 h-4 text-carbon-500" />
-                      {section.title}
+                      <span>{section.title}<span className="block mt-1 text-xs text-carbon-500">{section.summary}</span></span>
                     </button>
                   ))
                 )}
@@ -363,10 +379,25 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
       {/* Main Content */}
       <main className="min-h-screen pt-28 lg:pt-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+          <div className="hidden lg:block mb-8">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-carbon-500" />
+              <input type="search" aria-label="Search documentation" placeholder="Search documentation…"
+                value={searchQuery} onChange={event => setSearchQuery(event.target.value)} onKeyDown={searchKeyboard}
+                className="w-full pl-10 pr-4 py-3 bg-carbon-900/50 border border-carbon-800 rounded-xl text-sm text-white placeholder:text-carbon-500 focus:outline-none focus:border-zap-500/50" />
+            </div>
+            {filteredSections && <div className="mt-2 bg-carbon-900/80 border border-carbon-800 rounded-xl overflow-hidden" aria-label="Documentation search results">
+              <p className="px-4 py-2 text-xs text-carbon-500" role="status">{filteredSections.length} matching {filteredSections.length === 1 ? 'section' : 'sections'}</p>
+              {filteredSections.map(section => <button type="button" key={section.id} onClick={() => selectResult(section.id)} className="w-full px-4 py-3 text-left text-sm text-carbon-300 hover:text-white hover:bg-carbon-800/50 focus-visible:bg-carbon-800/50">
+                <span className="font-medium">{section.title}</span><span className="block mt-1 text-xs text-carbon-500">{section.summary}</span>
+              </button>)}
+            </div>}
+          </div>
+
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-carbon-500 mb-8">
             <Link
-              to="/"
+              href="/"
               className="hover:text-white transition-colors"
             >Home</Link>
             <ChevronRight className="w-4 h-4" />
@@ -378,7 +409,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
           {/* Content */}
           <motion.div
             key={currentSection}
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >

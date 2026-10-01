@@ -1,0 +1,90 @@
+[
+  {
+    "id": "one-application",
+    "slug": "one-application",
+    "title": "One application, from source to managed deployment",
+    "excerpt": "How the current ZapJS compiler connects React pages, server actions and managed functions.",
+    "tags": [
+      "architecture",
+      "deployment"
+    ],
+    "paragraphs": [
+      "ZapJS builds one React application. Pages and nested layouts live in app/, interactive components declare use client, and route.ts modules export Web Request/Response handlers.",
+      "The compiler produces React Server Component payloads, streamed HTML, browser chunks and a versioned route graph. Vercel receives static output and a Node 22 managed function through its Build Output API.",
+      "The previous Rust HTTP listener and Splice process bridge have been removed. Optional Rust code loads as a Node-API module within the managed invocation. A JavaScript-only application does not require a Rust compiler.",
+      "This website runs on that same framework. Its examples make real HTTP requests; its blog pages are explicitly prerendered. The framework snapshot is unreleased and is distributed here as a local-install package, not as a claimed public npm release."
+    ],
+    "author": "ZapJS",
+    "publishedAt": "2026-09-30",
+    "sources": [
+      {
+        "label": "Architecture and supported scope",
+        "href": "/docs#architecture"
+      },
+      {
+        "label": "Deployment instructions",
+        "href": "/docs#deployment"
+      }
+    ]
+  },
+  {
+    "id": "native-functions",
+    "slug": "native-functions",
+    "title": "Calling Rust inside a ZapJS request",
+    "excerpt": "A typed native boundary with checked input and bounded work, demonstrated by this site.",
+    "tags": [
+      "rust",
+      "native"
+    ],
+    "paragraphs": [
+      "The Rust Computation example sends an array to a ZapJS route handler. That handler validates the request and calls sumNumbers imported from zap:native. The implementation is a compiled napi-rs function, not a mocked response or a remote Rust service.",
+      "The Rust function validates unsigned 32-bit inputs and checked addition. Work executes through the packaged zap-native compute pool, which bounds admitted work. Its cancellation is cooperative: native code checks a token; a browser disconnect or an abandoned JavaScript promise does not automatically cancel this native call.",
+      "Adding a few integers is a binding demonstration, not evidence that native code is faster for tiny tasks. Use Rust when profiling identifies substantial compute or when your application already has a native library.",
+      "Managed native builds run on the deployment target. This site compiles its addon on Linux for Vercel; a macOS development binary cannot be uploaded as a Linux function artifact."
+    ],
+    "author": "ZapJS",
+    "publishedAt": "2026-09-30",
+    "sources": [
+      {
+        "label": "Native Rust contracts and examples",
+        "href": "/docs#native"
+      },
+      {
+        "label": "Try the real Rust endpoint",
+        "href": "/examples"
+      }
+    ]
+  },
+  {
+    "id": "measuring-performance",
+    "slug": "measuring-performance",
+    "title": "Publishing measurements without inventing a speedup",
+    "excerpt": "What the recorded Next.js comparison establishes—and what it does not.",
+    "tags": [
+      "performance",
+      "verification"
+    ],
+    "paragraphs": [
+      "The recorded comparison uses matching synthetic fixture source for React pages and HTTP endpoints, with Next.js 16.3.8 and React 19.3.0. Across both framework orders, it recorded 6,400 load-test requests and zero recorded errors. The dynamic HTML chart displays 800 of those requests; warm-up and fresh-process measurements are counted separately. The fixture does not benchmark native Rust.",
+      "The shared host was heavily contended. The measured timings varied substantially as competing work changed, so these runs do not establish a reliable framework speed advantage.",
+      "The Performance section displays both recorded orders and links to raw measurements. Fetching these records does not turn them into a live benchmark of this website.",
+      "Deployment latency, application data access and browser experience require their own measurements. Treat the local fixture as a reproducible starting point, not a production capacity promise."
+    ],
+    "author": "ZapJS",
+    "publishedAt": "2026-09-30",
+    "sources": [
+      {
+        "label": "Full measurement methodology and limits",
+        "href": "/docs#performance"
+      },
+      {
+        "label": "ZapJS-first raw record",
+        "href": "/benchmarks/benchmark-safe.json"
+      },
+      {
+        "label": "Next.js-first raw record",
+        "href": "/benchmarks/benchmark-safe-reverse.json"
+      }
+    ]
+  }
+]

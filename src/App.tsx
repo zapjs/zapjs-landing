@@ -1,6 +1,6 @@
+'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, lazy, Suspense } from 'react';
-import { AppRouterProvider, usePathname } from './router';
+import { useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -9,52 +9,8 @@ import CodeDemo from './components/CodeDemo';
 import Architecture from './components/Architecture';
 import GetStarted from './components/GetStarted';
 import Footer from './components/Footer';
-import DocsPage from './pages/DocsPage';
-import ExamplesPage from './pages/ExamplesPage';
 
-// Lazy load blog pages
-const BlogIndex = lazy(() => import('../routes/blog/index'));
-const BlogPost = lazy(() => import('../routes/blog/[slug]'));
-
-function LoadingSpinner() {
-  return (
-    <div className="min-h-screen bg-carbon-950 flex items-center justify-center">
-      <div className="animate-spin w-8 h-8 border-2 border-zap-500 border-t-transparent rounded-full" />
-    </div>
-  );
-}
-
-function AppContent() {
-  const currentPath = usePathname();
-
-  // Render docs page if on /docs route
-  if (currentPath === '/docs' || currentPath.startsWith('/docs')) {
-    return <DocsPage />;
-  }
-
-  // Render examples page if on /examples route
-  if (currentPath === '/examples' || currentPath.startsWith('/examples')) {
-    return <ExamplesPage />;
-  }
-
-  // Render blog pages
-  if (currentPath === '/blog') {
-    return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <BlogIndex />
-      </Suspense>
-    );
-  }
-
-  if (currentPath.startsWith('/blog/')) {
-    const slug = currentPath.replace('/blog/', '');
-    return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <BlogPost params={{ slug }} />
-      </Suspense>
-    );
-  }
-
+export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -120,13 +76,3 @@ function AppContent() {
     </div>
   );
 }
-
-function App() {
-  return (
-    <AppRouterProvider>
-      <AppContent />
-    </AppRouterProvider>
-  );
-}
-
-export default App;

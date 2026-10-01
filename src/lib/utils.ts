@@ -24,8 +24,8 @@ interface Token {
 
 const RUST_KEYWORDS = ['use', 'pub', 'async', 'fn', 'struct', 'let', 'Ok', 'Result', 'impl', 'await', 'derive', 'mod', 'self', 'Self', 'where', 'for', 'in', 'if', 'else', 'match', 'return', 'mut', 'ref', 'move', 'dyn', 'trait', 'type', 'enum', 'true', 'false'];
 const TS_KEYWORDS = ['import', 'export', 'const', 'async', 'await', 'return', 'function', 'from', 'interface', 'type', 'let', 'var', 'if', 'else', 'new', 'this', 'class', 'extends', 'true', 'false', 'null', 'undefined', 'as'];
-const RUST_TYPES = ['User', 'String', 'u64', 'u32', 'i32', 'i64', 'bool', 'Vec', 'Option', 'UserUpdate', 'HashMap', 'Box', 'Arc', 'Mutex'];
-const TS_TYPES = ['User', 'UserUpdate', 'string', 'number', 'void', 'boolean', 'any', 'unknown', 'never', 'Promise', 'Array', 'Record', 'Partial'];
+const RUST_TYPES = ['String', 'u64', 'u32', 'i32', 'i64', 'bool', 'Vec', 'Option', 'HashMap', 'Box', 'Arc', 'Mutex'];
+const TS_TYPES = ['string', 'number', 'void', 'boolean', 'any', 'unknown', 'never', 'Promise', 'Array', 'Record', 'Partial'];
 
 export function highlightCode(code: string, lang: 'rust' | 'typescript'): Token[] {
   const tokens: Token[] = [];
@@ -88,24 +88,6 @@ export function highlightCode(code: string, lang: 'rust' | 'typescript'): Token[
         if (code[j] === ']') depth--;
         j++;
       }
-      tokens.push({ text: code.slice(i, j), color: HIGHLIGHT_COLORS.special });
-      i = j;
-      continue;
-    }
-
-    // server.* calls
-    if (code.slice(i, i + 7) === 'server.') {
-      let j = i + 7;
-      while (j < code.length && /[\w.]/.test(code[j])) j++;
-      tokens.push({ text: code.slice(i, j), color: HIGHLIGHT_COLORS.special });
-      i = j;
-      continue;
-    }
-
-    // @zap-js/...
-    if (code.slice(i, i + 8) === '@zap-js/') {
-      let j = i + 7;
-      while (j < code.length && /\w/.test(code[j])) j++;
       tokens.push({ text: code.slice(i, j), color: HIGHLIGHT_COLORS.special });
       i = j;
       continue;

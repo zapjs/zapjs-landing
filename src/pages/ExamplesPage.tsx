@@ -1,10 +1,11 @@
+'use client';
 import { motion } from 'framer-motion';
 import { Zap, Github, ArrowLeft } from 'lucide-react';
 import Examples from '../components/Examples';
-import { Link, useRouter } from '../router';
+import { Link } from '@zap-js/client';
+import ActionDemo from '../../app/examples/action-demo';
 
-export default function ExamplesPage() {
-  const router = useRouter();
+export default function ExamplesPage({ initialPreference }: { initialPreference?: 'compact' | 'comfortable' }) {
 
   return (
     <div className="min-h-screen bg-carbon-950">
@@ -27,7 +28,7 @@ export default function ExamplesPage() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-2 group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -48,7 +49,7 @@ export default function ExamplesPage() {
             {/* Navigation Links */}
             <div className="flex items-center gap-6">
               <Link
-                to="/docs"
+                href="/docs"
                 className="text-sm font-medium text-carbon-400 hover:text-white transition-colors"
               >
                 Docs
@@ -71,7 +72,7 @@ export default function ExamplesPage() {
               </motion.a>
 
               <Link
-                to="/"
+                href="/"
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-zap-500 to-zap-600 hover:from-zap-400 hover:to-zap-500 text-white text-sm font-semibold rounded-full shadow-lg shadow-zap-500/25 transition-all duration-300"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -84,7 +85,8 @@ export default function ExamplesPage() {
 
       {/* Content */}
       <div className="relative z-10 pt-24">
-        <Examples />
+        <Examples density={initialPreference} />
+        <ActionDemo initialPreference={initialPreference} />
       </div>
     </div>
   );

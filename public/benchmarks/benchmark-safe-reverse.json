@@ -1,0 +1,559 @@
+{
+  "measuredAt": "2026-09-30T22:21:53.681Z",
+  "versions": {
+    "zap": "0.3.0-working-tree",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "node": "v22.15.1",
+    "v8": "12.4.254.21-node.24"
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "24.3.0",
+    "arch": "arm64",
+    "cpu": "Apple M3 Pro",
+    "logicalCpus": 11,
+    "totalMemoryBytes": 19327352832,
+    "freeMemoryBytes": 136593408,
+    "loadAverage": [
+      33.24462890625,
+      31.1494140625,
+      24.40478515625
+    ],
+    "loadAverageAfter": [
+      23.7822265625,
+      29.029296875,
+      24.046875
+    ]
+  },
+  "settings": {
+    "order": [
+      "next",
+      "zap"
+    ],
+    "requestsPerWorkload": 200,
+    "concurrencyLevels": [
+      1,
+      16
+    ],
+    "coldRuns": 3,
+    "warmupRequests": 10,
+    "acceptEncoding": "identity",
+    "streamedDelayMs": 60,
+    "cpuIterations": 250000
+  },
+  "scope": "Local framework-core comparison of equivalent generated dynamic RSC/HTML and API fixtures. No CDN, native acceleration, database, browser hydration, managed cold-start, or feature-parity claim. Servers run sequentially in separate processes on a shared unpinned host.",
+  "git": {
+    "revision": "c6b249191dd4e23b31abbe0e1cb30d62add35020",
+    "dirty": true
+  },
+  "frameworks": {
+    "next": {
+      "build": {
+        "milliseconds": 84086.86099999999
+      },
+      "emittedClientJavaScript": {
+        "bytes": 566679,
+        "files": 10
+      },
+      "cold": [
+        {
+          "startupMs": 1396.734708,
+          "firstByteMs": 1367.869875,
+          "totalMs": 1369.2316669999998,
+          "bytes": 4775,
+          "rssBytes": 87425024,
+          "cpuSeconds": 0.8
+        },
+        {
+          "startupMs": 604.0630000000001,
+          "firstByteMs": 798.5313749999996,
+          "totalMs": 799.2573329999996,
+          "bytes": 4775,
+          "rssBytes": 94797824,
+          "cpuSeconds": 0.58
+        },
+        {
+          "startupMs": 694.7601249999998,
+          "firstByteMs": 1041.6885419999999,
+          "totalMs": 1042.0432499999997,
+          "bytes": 4775,
+          "rssBytes": 84393984,
+          "cpuSeconds": 0.63
+        }
+      ],
+      "warm": {
+        "api-echo": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 1325.2492080000002,
+            "requestsPerSecond": 150.91501190318007,
+            "firstByteMs": {
+              "p50": 4.527249999999185,
+              "p95": 17.098166999998284,
+              "p99": 32.42570799999976
+            },
+            "totalMs": {
+              "p50": 4.620708000000377,
+              "p95": 17.197583000001032,
+              "p99": 32.52537500000017
+            },
+            "responseBytes": {
+              "p50": 14,
+              "p95": 14,
+              "p99": 14
+            },
+            "cpuSeconds": 0.5700000000000001,
+            "sampledRssBytes": 100253696
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 1066.030667000001,
+            "requestsPerSecond": 187.61186351499197,
+            "firstByteMs": {
+              "p50": 40.77912499999911,
+              "p95": 233.3266249999997,
+              "p99": 453.34283400000095
+            },
+            "totalMs": {
+              "p50": 40.817291999999725,
+              "p95": 233.35558300000048,
+              "p99": 453.4670420000002
+            },
+            "responseBytes": {
+              "p50": 14,
+              "p95": 14,
+              "p99": 14
+            },
+            "cpuSeconds": 0.48,
+            "sampledRssBytes": 111034368
+          }
+        ],
+        "api-js-cpu": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 2308.9272919999985,
+            "requestsPerSecond": 86.6203109526067,
+            "firstByteMs": {
+              "p50": 7.2792499999995925,
+              "p95": 32.07775000000038,
+              "p99": 67.27362499999981
+            },
+            "totalMs": {
+              "p50": 7.333834000000934,
+              "p95": 32.15625,
+              "p99": 67.31412499999897
+            },
+            "responseBytes": {
+              "p50": 23,
+              "p95": 23,
+              "p99": 23
+            },
+            "cpuSeconds": 0.8300000000000001,
+            "sampledRssBytes": 98861056
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 1694.3285000000014,
+            "requestsPerSecond": 118.0408639764956,
+            "firstByteMs": {
+              "p50": 109.57200000000012,
+              "p95": 272.6312079999989,
+              "p99": 337.5267079999994
+            },
+            "totalMs": {
+              "p50": 109.62504099999933,
+              "p95": 272.6741669999992,
+              "p99": 337.55624999999964
+            },
+            "responseBytes": {
+              "p50": 23,
+              "p95": 23,
+              "p99": 23
+            },
+            "cpuSeconds": 0.5799999999999996,
+            "sampledRssBytes": 110936064
+          }
+        ],
+        "dynamic-rsc-html": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 2786.6380420000005,
+            "requestsPerSecond": 71.7710721613697,
+            "firstByteMs": {
+              "p50": 9.327124999999796,
+              "p95": 33.08766699999978,
+              "p99": 70.90587500000038
+            },
+            "totalMs": {
+              "p50": 9.412583999997878,
+              "p95": 33.593707999998514,
+              "p99": 71.0210420000003
+            },
+            "responseBytes": {
+              "p50": 4775,
+              "p95": 4775,
+              "p99": 4775
+            },
+            "cpuSeconds": 1.3399999999999994,
+            "sampledRssBytes": 134168576
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 1527.5479169999999,
+            "requestsPerSecond": 130.92878971206767,
+            "firstByteMs": {
+              "p50": 100.69925000000148,
+              "p95": 245.06433399999878,
+              "p99": 299.8297079999975
+            },
+            "totalMs": {
+              "p50": 100.80362500000047,
+              "p95": 245.08116700000028,
+              "p99": 300.0711249999986
+            },
+            "responseBytes": {
+              "p50": 4775,
+              "p95": 4775,
+              "p99": 4775
+            },
+            "cpuSeconds": 0.8499999999999996,
+            "sampledRssBytes": 128663552
+          }
+        ],
+        "streamed-rsc-html": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 13899.079541999996,
+            "requestsPerSecond": 14.38944207748747,
+            "firstByteMs": {
+              "p50": 7.3637090000011085,
+              "p95": 24.255083000000013,
+              "p99": 31.681708999996772
+            },
+            "totalMs": {
+              "p50": 67.19470799999908,
+              "p95": 83.27704100000119,
+              "p99": 91.96524999999747
+            },
+            "responseBytes": {
+              "p50": 6467,
+              "p95": 6467,
+              "p99": 6467
+            },
+            "cpuSeconds": 1.4699999999999998,
+            "sampledRssBytes": 97124352
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 870.6573330000028,
+            "requestsPerSecond": 229.7114977609674,
+            "firstByteMs": {
+              "p50": 6.795583999999508,
+              "p95": 28.278165999996418,
+              "p99": 37.07120800000121
+            },
+            "totalMs": {
+              "p50": 65.49299999999494,
+              "p95": 80.32804100000067,
+              "p99": 93.73695800000132
+            },
+            "responseBytes": {
+              "p50": 6467,
+              "p95": 6467,
+              "p99": 6467
+            },
+            "cpuSeconds": 0.6899999999999995,
+            "sampledRssBytes": 139460608
+          }
+        ]
+      }
+    },
+    "zap": {
+      "build": {
+        "milliseconds": 9505.022667000001
+      },
+      "emittedClientJavaScript": {
+        "bytes": 251650,
+        "files": 3
+      },
+      "cold": [
+        {
+          "startupMs": 174.72787500000413,
+          "firstByteMs": 69.41062500000407,
+          "totalMs": 75.3022920000003,
+          "bytes": 948,
+          "rssBytes": 68812800,
+          "cpuSeconds": 0.16
+        },
+        {
+          "startupMs": 152.1481249999997,
+          "firstByteMs": 49.182999999997264,
+          "totalMs": 50.24204199999804,
+          "bytes": 948,
+          "rssBytes": 68157440,
+          "cpuSeconds": 0.12
+        },
+        {
+          "startupMs": 130.13216699999612,
+          "firstByteMs": 60.23145900000236,
+          "totalMs": 61.30366700000013,
+          "bytes": 948,
+          "rssBytes": 69337088,
+          "cpuSeconds": 0.13
+        }
+      ],
+      "warm": {
+        "api-echo": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 108.74175000000105,
+            "requestsPerSecond": 1839.2199868035789,
+            "firstByteMs": {
+              "p50": 0.376750000003085,
+              "p95": 1.0976250000021537,
+              "p99": 1.6926249999960419
+            },
+            "totalMs": {
+              "p50": 0.4106660000034026,
+              "p95": 1.2912920000017039,
+              "p99": 2.013457999993989
+            },
+            "responseBytes": {
+              "p50": 14,
+              "p95": 14,
+              "p99": 14
+            },
+            "cpuSeconds": 0.13,
+            "sampledRssBytes": 71450624
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 53.68179200000304,
+            "requestsPerSecond": 3725.658040625556,
+            "firstByteMs": {
+              "p50": 3.4046670000025188,
+              "p95": 8.758458000003884,
+              "p99": 14.957291999999143
+            },
+            "totalMs": {
+              "p50": 3.423333000006096,
+              "p95": 8.809375000004366,
+              "p99": 14.963292000000365
+            },
+            "responseBytes": {
+              "p50": 14,
+              "p95": 14,
+              "p99": 14
+            },
+            "cpuSeconds": 0.06999999999999998,
+            "sampledRssBytes": 72810496
+          }
+        ],
+        "api-js-cpu": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 465.97404200000165,
+            "requestsPerSecond": 429.2084579252149,
+            "firstByteMs": {
+              "p50": 2.076500000002852,
+              "p95": 3.578957999998238,
+              "p99": 5.025708000001032
+            },
+            "totalMs": {
+              "p50": 2.0935000000026776,
+              "p95": 3.7084580000009737,
+              "p99": 5.0538329999981215
+            },
+            "responseBytes": {
+              "p50": 23,
+              "p95": 23,
+              "p99": 23
+            },
+            "cpuSeconds": 0.45,
+            "sampledRssBytes": 75448320
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 399.437125000004,
+            "requestsPerSecond": 500.7045852335283,
+            "firstByteMs": {
+              "p50": 31.46179200000188,
+              "p95": 38.266999999999825,
+              "p99": 41.0022089999984
+            },
+            "totalMs": {
+              "p50": 31.47929199999635,
+              "p95": 38.28770800000348,
+              "p99": 41.04475000000093
+            },
+            "responseBytes": {
+              "p50": 23,
+              "p95": 23,
+              "p99": 23
+            },
+            "cpuSeconds": 0.41999999999999993,
+            "sampledRssBytes": 79134720
+          }
+        ],
+        "dynamic-rsc-html": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 200.67637499999546,
+            "requestsPerSecond": 996.6295235301341,
+            "firstByteMs": {
+              "p50": 0.7069589999955497,
+              "p95": 2.04970900000626,
+              "p99": 2.817709000002651
+            },
+            "totalMs": {
+              "p50": 0.7970839999979944,
+              "p95": 2.2623340000063763,
+              "p99": 3.441917000003741
+            },
+            "responseBytes": {
+              "p50": 948,
+              "p95": 948,
+              "p99": 948
+            },
+            "cpuSeconds": 0.28,
+            "sampledRssBytes": 98877440
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 170.0809999999983,
+            "requestsPerSecond": 1175.9103015622084,
+            "firstByteMs": {
+              "p50": 11.928124999998545,
+              "p95": 24.971041999997396,
+              "p99": 30.338040999995428
+            },
+            "totalMs": {
+              "p50": 12.188874999999825,
+              "p95": 25.043291999994835,
+              "p99": 30.448207999994338
+            },
+            "responseBytes": {
+              "p50": 948,
+              "p95": 948,
+              "p99": 948
+            },
+            "cpuSeconds": 0.24,
+            "sampledRssBytes": 122060800
+          }
+        ],
+        "streamed-rsc-html": [
+          {
+            "requests": 200,
+            "concurrency": 1,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 12960.101416999998,
+            "requestsPerSecond": 15.43197800425052,
+            "firstByteMs": {
+              "p50": 1.272292000001471,
+              "p95": 3.312833000003593,
+              "p99": 5.684790999999677
+            },
+            "totalMs": {
+              "p50": 64.36179200000333,
+              "p95": 66.78566700000374,
+              "p99": 71.37937500000407
+            },
+            "responseBytes": {
+              "p50": 2187,
+              "p95": 2187,
+              "p99": 2187
+            },
+            "cpuSeconds": 0.6099999999999999,
+            "sampledRssBytes": 85966848
+          },
+          {
+            "requests": 200,
+            "concurrency": 16,
+            "successes": 200,
+            "errors": 0,
+            "errorExamples": [],
+            "elapsedMs": 854.5848750000005,
+            "requestsPerSecond": 234.03175723183713,
+            "firstByteMs": {
+              "p50": 1.955707999994047,
+              "p95": 7.133958000005805,
+              "p99": 11.894124999998894
+            },
+            "totalMs": {
+              "p50": 65.27391699999862,
+              "p95": 73.96991600000183,
+              "p99": 84.55566700000054
+            },
+            "responseBytes": {
+              "p50": 2187,
+              "p95": 2187,
+              "p99": 2187
+            },
+            "cpuSeconds": 0.4200000000000004,
+            "sampledRssBytes": 98484224
+          }
+        ]
+      }
+    }
+  },
+  "fixtureSha256": "69858984be330ecf96d334950943618ae0ab388c2d21249cfebdf68fcefeaf1e"
+}

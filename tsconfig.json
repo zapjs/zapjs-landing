@@ -1,24 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "strict": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "app",
+    "src",
+    ".zap/types/**/*.d.ts"
+  ]
 }

@@ -1,3 +1,6 @@
+'use client';
+
+import { features } from '../content/framework';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import {
@@ -11,56 +14,11 @@ import {
   Terminal,
 } from 'lucide-react';
 
-const features = [
-  {
-    icon: Zap,
-    title: 'Rust Performance',
-    description: '20ns route lookups, MessagePack RPC, connection pooling. Production-grade speed.',
-    color: 'zap',
-  },
-  {
-    icon: FileCode2,
-    title: 'File-Based Routing',
-    description: 'Next.js-style [param] routes, SSG with generateStaticParams, client-side router.',
-    color: 'sky',
-  },
-  {
-    icon: Workflow,
-    title: 'Full Type Safety',
-    description: 'Bidirectional Rust-TypeScript types. Result<T, E> becomes T | Error unions.',
-    color: 'emerald',
-  },
-  {
-    icon: Gauge,
-    title: 'Production Ready',
-    description: 'Security headers, rate limiting, CORS, Prometheus metrics, health probes.',
-    color: 'violet',
-  },
-  {
-    icon: Shield,
-    title: 'Built-in Resilience',
-    description: 'Circuit breaker, IPC retry with backoff, graceful degradation.',
-    color: 'rose',
-  },
-  {
-    icon: Layers,
-    title: 'Real-time Support',
-    description: 'WebSocket handlers, streaming responses, bidirectional communication.',
-    color: 'amber',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Developer Experience',
-    description: 'Hot reload for Rust and TypeScript. ETag caching, structured logging.',
-    color: 'cyan',
-  },
-  {
-    icon: Terminal,
-    title: 'Simple Deployment',
-    description: 'Single ~4MB binary. Docker ready. Cross-compilation supported.',
-    color: 'pink',
-  },
-];
+const displayFeatures = features.map((feature, index) => ({
+  ...feature,
+  icon: [Zap, FileCode2, Workflow, Gauge, Shield, Layers, RefreshCw, Terminal][index],
+  color: ['zap', 'sky', 'emerald', 'violet', 'rose', 'amber', 'cyan', 'pink'][index],
+}));
 
 const colorVariants: Record<string, { bg: string; text: string; border: string; glow: string }> = {
   zap: {
@@ -113,7 +71,7 @@ const colorVariants: Record<string, { bg: string; text: string; border: string; 
   },
 };
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+function FeatureCard({ feature, index }: { feature: typeof displayFeatures[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const colors = colorVariants[feature.color];
@@ -165,17 +123,17 @@ export default function Features() {
             <span className="text-sm font-medium text-zap-400">Features</span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-white mb-6">
-            Ship faster,{' '}
-            <span className="text-gradient">run faster</span>
+            Build the app,{' '}
+            <span className="text-gradient">keep one model</span>
           </h2>
           <p className="text-lg sm:text-xl text-carbon-400 max-w-3xl mx-auto">
-            Rust performance. TypeScript DX. One command to start.
+            React conventions, Web APIs, and optional native code. Each capability has an explicit runtime contract.
           </p>
         </motion.div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
+          {displayFeatures.map((feature, index) => (
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>

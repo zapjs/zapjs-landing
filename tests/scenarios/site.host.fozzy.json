@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "name": "zapjs-landing-live-production",
+  "steps": [
+    { "type": "proc_spawn", "cmd": "node", "args": ["tests/http.mjs"], "expect_exit": 0 }
+  ]
+}

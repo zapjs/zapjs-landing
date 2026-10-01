@@ -1,0 +1,11 @@
+import {execFileSync} from 'node:child_process';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const framework=resolve(process.argv[2]??resolve(root,'../zapjs'));
+const version=JSON.parse(readFileSync(resolve(framework,'packages/client/package.json'),'utf8')).version;
+if(version!=='0.3.0')throw new Error('Update the website dependency and download paths before packing framework version '+version);
+execFileSync(process.execPath,['scripts/build.mjs'],{cwd:framework,stdio:'inherit'});
+execFileSync('npm',['pack',resolve(framework,'packages/client'),'--ignore-scripts','--pack-destination',resolve(root,'vendor')],{cwd:root,stdio:'inherit'});
+console.log('Framework snapshot refreshed. Run npm install ./vendor/zap-js-client-0.3.0.tgz, then npm run verify.');

@@ -1,483 +1,185 @@
+'use client';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import {
-  Code2,
-  Zap,
-  Activity,
-  Users,
-  FileText,
-  Mail,
-  Radio,
-  Copy,
-  Check,
-  ChevronRight,
-  Play,
-  ExternalLink,
-  Wifi,
-  Layers,
-  BookOpen,
-} from 'lucide-react';
+import { Code2, Zap, Activity, FileText, Radio, Copy, Check, ChevronRight, Play, ExternalLink } from 'lucide-react';
 import { highlightCode, tokensToHtml } from '../lib/utils';
 
 interface ApiExample {
   id: string;
   name: string;
   endpoint: string;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: 'GET' | 'POST';
   description: string;
   category: 'simple' | 'complex' | 'advanced';
   icon: typeof Zap;
-  sampleResponse?: unknown;
   sampleBody?: unknown;
+  streaming?: boolean;
   curl: string;
   codeSnippet: string;
 }
 
 const examples: ApiExample[] = [
-  {
-    id: 'stats',
-    name: 'Site Stats',
-    endpoint: '/api/stats',
-    method: 'GET',
-    description: 'Returns live site statistics including uptime and request counts.',
-    category: 'simple',
-    icon: Activity,
-    curl: 'curl http://localhost:3000/api/stats',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { StatsResponse, ApiError } from './generated/types';
-
-// Type-safe RPC call with union return type
-const result = await rpc.call<StatsResponse | ApiError>('get_stats', {});
-
-if ('error' in result) {
-  // TypeScript knows: ApiError
-  console.error(result.code, result.error);
-} else {
-  // TypeScript knows: StatsResponse
-  console.log(result.version);   // string
-  console.log(result.uptime);    // string
-  console.log(result.requests);  // number
-}`,
-  },
-  {
-    id: 'features',
-    name: 'Features List',
-    endpoint: '/api/features',
-    method: 'GET',
-    description: 'Returns all ZapJS features displayed on the homepage.',
-    category: 'simple',
-    icon: Zap,
-    curl: 'curl http://localhost:3000/api/features',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { FeaturesResponse, ApiError } from './generated/types';
-
-const result = await rpc.call<FeaturesResponse | ApiError>('get_features', {});
-
-if ('error' in result) {
-  handleError(result); // ApiError
-} else {
-  // FeaturesResponse - fully typed
-  result.features.forEach(f => {
-    console.log(f.title);       // string
-    console.log(f.icon);        // string
-    console.log(f.description); // string
-  });
-  console.log(result.count);    // number
-}`,
-  },
-  {
-    id: 'benchmarks',
-    name: 'Benchmarks',
-    endpoint: '/api/benchmarks',
-    method: 'GET',
-    description: 'Performance benchmark data comparing ZapJS to other frameworks.',
-    category: 'simple',
-    icon: Activity,
-    curl: 'curl http://localhost:3000/api/benchmarks',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { BenchmarksResponse, ApiError } from './generated/types';
-
-const result = await rpc.call<BenchmarksResponse | ApiError>('get_benchmarks', {});
-
-if (!('error' in result)) {
-  // BenchmarksResponse with nested types
-  result.frameworks.forEach(fw => {
-    console.log(fw.name);           // string
-    console.log(fw.requestsPerSec); // number
-    console.log(fw.latencyMs);      // number
-  });
-  console.log(result.metrics.p99Latency); // string
-  console.log(result.machine);            // string
-}`,
-  },
-  {
-    id: 'users',
-    name: 'Users CRUD',
-    endpoint: '/api/users',
-    method: 'GET',
-    description: 'Full CRUD operations with validation and error handling.',
-    category: 'complex',
-    icon: Users,
-    curl: 'curl http://localhost:3000/api/users',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { User, ListUsersResponse, ApiError } from './generated/types';
-
-// List users with pagination
-const listResult = await rpc.call<ListUsersResponse | ApiError>('list_users', {
-  limit: 10,
-  offset: 0
+  { id: 'stats', name: 'Runtime Stats', endpoint: '/api/stats', method: 'GET', category: 'simple', icon: Activity,
+    description: 'Inspect Node process uptime, process RSS memory, and fresh request metadata.',
+    curl: 'curl "$ORIGIN/api/stats"',
+    codeSnippet: `const response = await fetch('/api/stats');
+if (!response.ok) throw new Error('HTTP ' + response.status);
+console.log(await response.json());` },
+  { id: 'features', name: 'Supported Features', endpoint: '/api/features', method: 'GET', category: 'simple', icon: Zap,
+    description: 'Read the capabilities supported by this framework build.',
+    curl: 'curl "$ORIGIN/api/features"',
+    codeSnippet: `const response = await fetch('/api/features');
+if (!response.ok) throw new Error('HTTP ' + response.status);
+console.log(await response.json());` },
+  { id: 'benchmarks', name: 'Measured Benchmarks', endpoint: '/api/benchmarks', method: 'GET', category: 'simple', icon: Activity,
+    description: 'Read the recorded workload, measurements, and their limits.',
+    curl: 'curl "$ORIGIN/api/benchmarks"',
+    codeSnippet: `const response = await fetch('/api/benchmarks');
+if (!response.ok) throw new Error('HTTP ' + response.status);
+// A recorded measurement snapshot, not a live load test.
+console.log(await response.json());` },
+  { id: 'posts', name: 'Article Pagination', endpoint: '/api/posts?page=1&limit=5', method: 'GET', category: 'complex', icon: FileText,
+    description: 'Browse documented articles with pagination and optional tag filtering.',
+    curl: 'curl "$ORIGIN/api/posts?page=1&limit=5"',
+    codeSnippet: `const query = new URLSearchParams({
+  page: '1', limit: '5', tag: 'rust'
 });
-if (!('error' in listResult)) {
-  listResult.users.forEach(u => console.log(u.name, u.email));
-  console.log(\`Total: \${listResult.total}, hasMore: \${listResult.hasMore}\`);
+const response = await fetch('/api/posts?' + query);
+if (!response.ok) throw new Error('HTTP ' + response.status);
+console.log(await response.json());` },
+  { id: 'echo', name: 'JSON Request', endpoint: '/api/echo', method: 'POST', category: 'complex', icon: Radio,
+    description: 'Send your own JSON and inspect the actual body and request ID.', sampleBody: { message: 'Hello from ZapJS', count: 2 },
+    curl: `curl -X POST "$ORIGIN/api/echo" -H 'Content-Type: application/json' -d '{"message":"Hello from ZapJS"}'`,
+    codeSnippet: `const response = await fetch('/api/echo', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ message: 'Hello from ZapJS' })
+});
+if (!response.ok) throw new Error('HTTP ' + response.status);
+console.log(await response.json());` },
+  { id: 'native', name: 'Rust Computation', endpoint: '/api/native', method: 'POST', category: 'advanced', icon: Zap,
+    description: 'Run a real Rust function inside this Node process through Node-API.', sampleBody: { values: [20, 22] },
+    curl: `curl -X POST "$ORIGIN/api/native" -H 'Content-Type: application/json' -d '{"values":[20,22]}'`,
+    codeSnippet: `// Server-only application code
+import { sumNumbers } from 'zap:native';
+
+const sum = await sumNumbers([20, 22]);
+// 42. TypeScript declarations come from Rust exports.
+// Browser components call an HTTP route or server action.` },
+  { id: 'stream', name: 'Streaming Response', endpoint: '/api/stream', method: 'GET', category: 'advanced', icon: Radio, streaming: true,
+    description: 'Watch newline-delimited JSON arrive in separate chunks. Cancel any time.',
+    curl: 'curl -N "$ORIGIN/api/stream"',
+    codeSnippet: `const controller = new AbortController();
+const response = await fetch('/api/stream', { signal: controller.signal });
+if (!response.ok || !response.body) throw new Error('Stream unavailable');
+const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+while (true) {
+  const { value, done } = await reader.read();
+  if (done) break;
+  console.log(value); // Buffer partial lines when parsing NDJSON.
 }
-
-// Create a new user
-const createResult = await rpc.call<User | ApiError>('create_user', {
-  name: 'Alice',
-  email: 'alice@example.com',
-  role: 'admin'
-});
-if (!('error' in createResult)) {
-  console.log(\`Created user: \${createResult.id}\`);
-}`,
-  },
-  {
-    id: 'posts',
-    name: 'Blog Posts',
-    endpoint: '/api/posts',
-    method: 'GET',
-    description: 'Paginated blog posts with filtering by tag and author.',
-    category: 'complex',
-    icon: FileText,
-    curl: 'curl "http://localhost:3000/api/posts?page=1&limit=5"',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { ListPostsResponse, ApiError } from './generated/types';
-
-// Paginated posts with optional filters
-const result = await rpc.call<ListPostsResponse | ApiError>('list_posts', {
-  page: 1,
-  limit: 5,
-  tag: 'rust',      // string | null
-  author: null      // string | null
-});
-
-if (!('error' in result)) {
-  // ListPostsResponse with nested Pagination type
-  result.posts.forEach(post => {
-    console.log(post.title, post.slug, post.tags);
-  });
-  console.log(\`Page \${result.pagination.page} of \${result.pagination.pages}\`);
-  console.log(\`hasNext: \${result.pagination.hasNext}\`);
-}`,
-  },
-  {
-    id: 'subscribe',
-    name: 'Newsletter',
-    endpoint: '/api/subscribe',
-    method: 'POST',
-    description: 'Email subscription with validation and error responses.',
-    category: 'complex',
-    icon: Mail,
-    sampleBody: { email: 'user@example.com' },
-    curl: 'curl -X POST http://localhost:3000/api/subscribe -H "Content-Type: application/json" -d \'{"email":"user@example.com"}\'',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { SubscribeResponse, ApiError } from './generated/types';
-
-const result = await rpc.call<SubscribeResponse | ApiError>('subscribe', {
-  email: 'user@example.com'
-});
-
-if ('error' in result) {
-  // Typed error handling
-  switch (result.code) {
-    case 'INVALID_EMAIL':
-      showError('Please enter a valid email');
-      break;
-    case 'ALREADY_SUBSCRIBED':
-      showInfo('You are already subscribed!');
-      break;
-    default:
-      showError(result.error);
-  }
-} else {
-  // SubscribeResponse
-  showSuccess(\`Subscribed \${result.email} at \${result.subscribedAt}\`);
-}`,
-  },
-  {
-    id: 'echo',
-    name: 'Request Echo',
-    endpoint: '/api/echo',
-    method: 'GET',
-    description: 'Echoes back request details - great for debugging.',
-    category: 'complex',
-    icon: Radio,
-    curl: 'curl "http://localhost:3000/api/echo?foo=bar"',
-    codeSnippet: `import { rpc } from '@zap-js/server';
-import type { EchoResponse, ApiError } from './generated/types';
-
-const result = await rpc.call<EchoResponse | ApiError>('echo_request', {
-  method: 'GET',
-  url: '/api/echo',
-  query: { foo: 'bar', debug: 'true' },
-  headers: { 'X-Custom': 'value' },
-  body: null
-});
-
-if (!('error' in result)) {
-  // EchoResponse - all fields typed
-  console.log(result.method);     // string
-  console.log(result.query);      // Record<string, string>
-  console.log(result.headers);    // Record<string, string>
-  console.log(result.timestamp);  // string
-}`,
-  },
-  // Advanced Features
-  {
-    id: 'streaming',
-    name: 'Streaming Response',
-    endpoint: '/api/streaming-info',
-    method: 'GET',
-    description: 'Server-Sent Events with async generators. Stream data in real-time.',
-    category: 'advanced',
-    icon: Radio,
-    curl: 'curl http://localhost:3000/api/streaming-info',
-    codeSnippet: `// routes/api/stream.ts - Streaming endpoint
-export const GET = async function* () {
-  yield { data: 'event: start\\ndata: {"status":"starting"}\\n\\n' };
-
-  for (let i = 1; i <= 5; i++) {
-    await new Promise(r => setTimeout(r, 500));
-    yield { data: \`event: progress\\ndata: \${JSON.stringify({ step: i })}\\n\\n\` };
-  }
-
-  yield { data: 'event: complete\\ndata: {"done":true}\\n\\n' };
-};
-
-// Client-side usage:
-const eventSource = new EventSource('/api/stream');
-eventSource.addEventListener('progress', (e) => {
-  console.log('Progress:', JSON.parse(e.data));
-});
-eventSource.addEventListener('complete', () => eventSource.close());`,
-  },
-  {
-    id: 'websocket',
-    name: 'WebSocket Echo',
-    endpoint: '/api/websocket-info',
-    method: 'GET',
-    description: 'Bidirectional real-time communication. Ping/pong, broadcast, stats.',
-    category: 'advanced',
-    icon: Wifi,
-    curl: 'curl http://localhost:3000/api/websocket-info',
-    codeSnippet: `// routes/api/ws-echo.ts - WebSocket handler
-import type { WsConnection, WsHandler } from '@zap-js/client';
-
-export const WEBSOCKET: WsHandler = {
-  onConnect: async (connection) => {
-    connection.send(JSON.stringify({
-      type: 'connected',
-      id: connection.id
-    }));
-  },
-
-  onMessage: async (connection, message) => {
-    // Echo back with timestamp
-    connection.send(JSON.stringify({
-      type: 'echo',
-      message,
-      timestamp: Date.now()
-    }));
-  },
-
-  onClose: async (connection) => {
-    console.log('Disconnected:', connection.id);
-  }
-};
-
-// Client:
-const ws = new WebSocket('ws://localhost:3000/api/ws-echo');
-ws.onmessage = (e) => console.log(JSON.parse(e.data));
-ws.send(JSON.stringify({ type: 'ping' }));`,
-  },
-  {
-    id: 'ssg',
-    name: 'Static Site Generation',
-    endpoint: '/api/ssg-info',
-    method: 'GET',
-    description: 'Pre-render routes at build time with generateStaticParams.',
-    category: 'advanced',
-    icon: Layers,
-    curl: 'curl http://localhost:3000/api/ssg-info',
-    codeSnippet: `// routes/blog/[slug].tsx - SSG with dynamic params
-import { rpc } from '@zap-js/server';
-
-// Called at build time - generates all blog post pages
-export async function generateStaticParams() {
-  const response = await rpc.call('list_posts', {
-    page: 1, limit: 100, tag: null, author: null
-  });
-  return response.posts.map(post => ({
-    slug: post.slug
-  }));
-}
-
-// Error boundary for 404s
-export function errorComponent({ error, reset }) {
-  return (
-    <div>
-      <h1>Post not found</h1>
-      <button onClick={reset}>Try Again</button>
-    </div>
-  );
-}
-
-export default function BlogPost({ params }) {
-  // Pre-rendered at build time for each slug
-  return <Article slug={params.slug} />;
-}`,
-  },
-  {
-    id: 'blog',
-    name: 'Blog Posts (SSG)',
-    endpoint: '/api/posts',
-    method: 'GET',
-    description: 'Live blog data from Rust backend. Visit /blog to see SSG in action.',
-    category: 'advanced',
-    icon: BookOpen,
-    curl: 'curl "http://localhost:3000/api/posts?page=1&limit=3"',
-    codeSnippet: `// This site's blog is pre-rendered using SSG
-// Visit: /blog to see it in action
-
-// The blog posts come from Rust:
-// #[export]
-// pub fn list_posts(...) -> Result<ListPostsResponse, ApiError>
-
-// And are pre-built via generateStaticParams():
-// /blog/getting-started-with-zapjs
-// /blog/understanding-file-based-routing
-// /blog/type-safe-apis-with-zap-export
-// /blog/deploying-zapjs-to-production
-// /blog/building-real-time-features
-// /blog/performance-optimization-tips
-
-// Each page loads instantly - zero runtime server calls!
-// The data was fetched at build time and baked into HTML.`,
-  },
+// Call controller.abort() from your cancel handler.` },
 ];
 
 const methodColors: Record<string, { bg: string; text: string }> = {
   GET: { bg: 'bg-emerald-500/20', text: 'text-emerald-400' },
   POST: { bg: 'bg-sky-500/20', text: 'text-sky-400' },
-  PUT: { bg: 'bg-amber-500/20', text: 'text-amber-400' },
-  DELETE: { bg: 'bg-rose-500/20', text: 'text-rose-400' },
 };
 
 function CopyButton({ text, className = '' }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const [error, setError] = useState('');
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const handleCopy = async () => {
+    setError('');
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => setCopied(false), 2000);
+    } catch { setCopied(false); setError('Copy failed. Select and copy the code manually.'); }
   };
-
-  return (
-    <button
-      onClick={handleCopy}
-      className={`p-2 hover:bg-carbon-700 rounded-lg transition-colors ${className}`}
-    >
-      {copied ? (
-        <Check className="w-4 h-4 text-emerald-400" />
-      ) : (
-        <Copy className="w-4 h-4 text-carbon-400" />
-      )}
+  return <div className="flex items-center gap-2">
+    {error && <span role="alert" className="text-xs text-rose-400">{error}</span>}
+    <button type="button" aria-label={copied ? 'Copied' : 'Copy code'} onClick={handleCopy} className={`p-2 hover:bg-carbon-700 rounded-lg transition-colors ${className}`}>
+      {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-carbon-400" />}
     </button>
-  );
+  </div>;
 }
 
-function LiveResponse({ endpoint }: { endpoint: string }) {
-  const [response, setResponse] = useState<unknown>(null);
+function LiveResponse({ example }: { example: ApiExample }) {
+  const [response, setResponse] = useState<string | null>(null);
+  const [body, setBody] = useState(JSON.stringify(example.sampleBody, null, 2) ?? '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cooldown, setCooldown] = useState(0);
-  const cooldownRef = useRef<NodeJS.Timeout | null>(null);
-
-  const COOLDOWN_MS = 2000; // 2 second cooldown between requests
-
+  const [status, setStatus] = useState<number | null>(null);
+  const active = useRef<AbortController | null>(null);
+  useEffect(() => () => { const controller = active.current; active.current = null; controller?.abort(); }, []);
   const fetchData = async () => {
-    if (cooldown > 0 || loading) return;
-
-    setLoading(true);
-    setError(null);
+    if (active.current) return;
+    const controller = new AbortController();
+    active.current = controller;
+    const timeout = setTimeout(() => controller.abort(new Error('Request timed out after 20 seconds.')), 20000);
+    setLoading(true); setError(null); setResponse(null); setStatus(null);
     try {
-      const res = await fetch(endpoint);
-      const data = await res.json();
-      setResponse(data);
-    } catch (err) {
-      setError('Failed to fetch');
-    }
-    setLoading(false);
-
-    // Start cooldown
-    setCooldown(COOLDOWN_MS);
-    const startTime = Date.now();
-
-    const tick = () => {
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, COOLDOWN_MS - elapsed);
-      setCooldown(remaining);
-
-      if (remaining > 0) {
-        cooldownRef.current = setTimeout(tick, 100);
+      const payload = example.method === 'POST' ? JSON.stringify(JSON.parse(body)) : undefined;
+      const res = await fetch(example.endpoint, { method: example.method, signal: controller.signal,
+        headers: payload === undefined ? undefined : { 'Content-Type': 'application/json' }, body: payload });
+      if (active.current !== controller) return;
+      setStatus(res.status);
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 1000)}`);
+      if (example.streaming) {
+        if (!res.body) throw new Error('This response has no readable stream.');
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        const lines: string[] = [];
+        let pending = '';
+        const accept = (line: string) => { if (line.trim()) lines.push(JSON.stringify(JSON.parse(line))); };
+        try {
+          while (true) {
+            const { value, done } = await reader.read();
+            pending += decoder.decode(value, { stream: !done });
+            const parts = pending.split('\n'); pending = parts.pop() ?? '';
+            for (const part of parts) accept(part);
+            if (done) { accept(pending); pending = ''; }
+            if (active.current !== controller) return;
+            setResponse(lines.join('\n'));
+            if (done) break;
+          }
+        } finally { reader.releaseLock(); }
+      } else {
+        const value = await res.json();
+        if (active.current === controller) setResponse(JSON.stringify(value, null, 2));
       }
-    };
-    tick();
+    } catch (cause) {
+      if (active.current === controller) setError(controller.signal.aborted
+        ? (controller.signal.reason instanceof Error ? controller.signal.reason.message : 'Request cancelled.')
+        : cause instanceof Error ? cause.message : 'Request failed.');
+    } finally {
+      clearTimeout(timeout);
+      if (active.current === controller) { active.current = null; setLoading(false); }
+    }
   };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (cooldownRef.current) clearTimeout(cooldownRef.current);
-    };
-  }, []);
-
-  const isDisabled = loading || cooldown > 0;
-  const buttonText = loading
-    ? 'Loading...'
-    : cooldown > 0
-      ? `Wait ${Math.ceil(cooldown / 1000)}s`
-      : 'Try It';
-
-  return (
-    <div className="mt-4">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-medium text-carbon-500 uppercase tracking-wider">
-          Live Response
-        </span>
-        <button
-          onClick={fetchData}
-          disabled={isDisabled}
-          className="flex items-center gap-1 px-3 py-1 text-xs font-medium bg-zap-500/20 text-zap-400 rounded-full hover:bg-zap-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Play className="w-3 h-3" />
-          {buttonText}
+  return <div className="mt-4">
+    {example.method === 'POST' && <label className="block text-xs text-carbon-400 mb-3">Request JSON
+      <textarea aria-label={`Request body for ${example.name}`} value={body} onChange={event => setBody(event.target.value)} disabled={loading}
+        className="block w-full mt-2 p-3 bg-carbon-950 border border-carbon-700 rounded-lg font-mono text-xs text-carbon-200" rows={5} spellCheck={false} />
+    </label>}
+    <div className="flex items-center justify-between mb-2">
+      <span className="text-xs font-medium text-carbon-500 uppercase tracking-wider">Live Response {status !== null && `· HTTP ${status}`}</span>
+      <div className="flex gap-2">
+        {loading && <button type="button" onClick={() => active.current?.abort(new Error('Request cancelled.'))} className="text-xs text-carbon-300 hover:text-white">Cancel</button>}
+        <button type="button" onClick={fetchData} disabled={loading} className="flex items-center gap-1 px-3 py-1 text-xs font-medium bg-zap-500/20 text-zap-400 rounded-full hover:bg-zap-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          <Play className="w-3 h-3" />{loading ? 'Loading...' : 'Try It'}
         </button>
       </div>
-      <div className="bg-carbon-950 rounded-lg p-3 font-mono text-xs overflow-auto max-h-48">
-        {error ? (
-          <span className="text-rose-400">{error}</span>
-        ) : response ? (
-          <pre className="text-carbon-300">
-            {JSON.stringify(response, null, 2)}
-          </pre>
-        ) : (
-          <span className="text-carbon-600">Click "Try It" to fetch live data</span>
-        )}
-      </div>
     </div>
-  );
+    <div aria-live="polite" className="bg-carbon-950 rounded-lg p-3 font-mono text-xs overflow-auto max-h-64">
+      {error && <p role="alert" className="text-rose-400 mb-2">{error}</p>}
+      {response !== null ? <pre className="text-carbon-300">{response}</pre> : !error && <span className="text-carbon-500">{loading ? 'Waiting for the server...' : 'Click "Try It" to send a live request'}</span>}
+    </div>
+  </div>;
 }
 
 function ExampleCard({ example, index }: { example: ApiExample; index: number }) {
@@ -495,8 +197,11 @@ function ExampleCard({ example, index }: { example: ApiExample; index: number })
       className="group bg-carbon-900/50 border border-carbon-800 rounded-xl overflow-hidden hover:border-carbon-700 transition-colors"
     >
       {/* Header - fixed height for consistent card sizing */}
-      <div
-        className="p-5 cursor-pointer min-h-[140px] flex flex-col"
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={`example-details-${example.id}`}
+        className="p-5 cursor-pointer min-h-[140px] flex flex-col w-full text-left"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between mb-3">
@@ -519,23 +224,24 @@ function ExampleCard({ example, index }: { example: ApiExample; index: number })
           />
         </div>
         <p className="text-sm text-carbon-400 mt-auto">{example.description}</p>
-      </div>
+      </button>
 
       {/* Expanded content */}
       <AnimatePresence>
         {expanded && (
           <motion.div
             key={`expanded-${example.id}`}
+            id={`example-details-${example.id}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="border-t border-carbon-800 overflow-hidden"
           >
-            {/* cURL command */}
+            {/* Set ORIGIN to the deployment URL, for example http://localhost:3000. */}
             <div className="p-4 border-b border-carbon-800/50">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-carbon-500 uppercase tracking-wider">cURL</span>
+                <span className="text-xs font-medium text-carbon-500 uppercase tracking-wider">cURL · set ORIGIN to this site’s URL</span>
                 <CopyButton text={example.curl} />
               </div>
               <code className="block bg-carbon-950 rounded-lg p-3 text-xs text-emerald-400 font-mono overflow-x-auto max-h-16">
@@ -561,7 +267,7 @@ function ExampleCard({ example, index }: { example: ApiExample; index: number })
 
             {/* Live response */}
             <div className="p-4">
-              <LiveResponse endpoint={example.endpoint} />
+              <LiveResponse example={example} />
             </div>
           </motion.div>
         )}
@@ -570,7 +276,7 @@ function ExampleCard({ example, index }: { example: ApiExample; index: number })
   );
 }
 
-export default function Examples() {
+export default function Examples({density='comfortable'}:{density?:'compact'|'comfortable'}) {
   const headerRef = useRef<HTMLDivElement>(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-100px' });
 
@@ -609,9 +315,9 @@ export default function Examples() {
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
             Simple Endpoints
-            <span className="text-sm font-normal text-carbon-500">Static responses</span>
+            <span className="text-sm font-normal text-carbon-500">Runtime and recorded data</span>
           </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+          <div data-example-density={density} className={`grid md:grid-cols-2 lg:grid-cols-3 items-start ${density==='compact'?'gap-2':'gap-4'}`}>
             {simpleExamples.map((example, index) => (
               <ExampleCard key={example.id} example={example} index={index} />
             ))}
@@ -622,10 +328,10 @@ export default function Examples() {
         <div className="mb-12">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-violet-500 rounded-full"></span>
-            Complex Endpoints
-            <span className="text-sm font-normal text-carbon-500">Validation, pagination, CRUD</span>
+            Application Endpoints
+            <span className="text-sm font-normal text-carbon-500">JSON requests and pagination</span>
           </h3>
-          <div className="grid md:grid-cols-2 gap-4 items-start">
+          <div data-example-density={density} className={`grid md:grid-cols-2 items-start ${density==='compact'?'gap-2':'gap-4'}`}>
             {complexExamples.map((example, index) => (
               <ExampleCard key={example.id} example={example} index={index} />
             ))}
@@ -637,9 +343,9 @@ export default function Examples() {
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-zap-500 rounded-full"></span>
             Advanced Features
-            <span className="text-sm font-normal text-carbon-500">Streaming, WebSocket, SSG</span>
+            <span className="text-sm font-normal text-carbon-500">Native Rust and HTTP streaming</span>
           </h3>
-          <div className="grid md:grid-cols-2 gap-4 items-start">
+          <div data-example-density={density} className={`grid md:grid-cols-2 items-start ${density==='compact'?'gap-2':'gap-4'}`}>
             {advancedExamples.map((example, index) => (
               <ExampleCard key={example.id} example={example} index={index} />
             ))}
@@ -654,7 +360,7 @@ export default function Examples() {
           className="mt-16 text-center"
         >
           <p className="text-carbon-400 mb-4">
-            All these endpoints are defined in <code className="text-zap-400 font-mono">routes/api/</code>
+            All these endpoints are defined in <code className="text-zap-400 font-mono">app/api/</code>
           </p>
           <a
             href="https://github.com/saint0x/zapjs"
@@ -662,7 +368,7 @@ export default function Examples() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm text-carbon-400 hover:text-white transition-colors"
           >
-            View source on GitHub
+            Explore the framework on GitHub
             <ExternalLink className="w-4 h-4" />
           </a>
         </motion.div>
