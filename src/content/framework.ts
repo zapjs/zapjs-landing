@@ -1,4 +1,4 @@
-/** Public capability copy shared by the page and /api/features. */
+/** Public capability copy shared by the landing page. */
 export const features = [
   { id: 'react', title: 'React on a Rust Runtime', description: 'React stays real React while Rust owns request admission, routing, limits, streaming and host capabilities.' },
   { id: 'routing', title: 'One Application Graph', description: 'Routes, layouts, client references, actions, assets and cache policy come from one build graph.' },

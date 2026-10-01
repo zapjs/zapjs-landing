@@ -35,15 +35,19 @@ export async function increment(previous: State): Promise<State> {
 }`,
   },
   {
-    id: 'route', label: 'Route Handler', icon: FileCode,
-    filename: 'app/api/echo/route.ts', language: 'typescript',
-    code: `export async function POST(request: Request) {
-  if (!request.headers.get('content-type')?.includes('application/json')) {
-    return Response.json({ error: 'Send application/json' }, { status: 415 });
-  }
+    id: 'admission', label: 'Rust Admission', icon: FileCode,
+    filename: 'crates/runtime/src/request.rs', language: 'rust',
+    code: `let outcome = admit_action_execution(
+    &manifest,
+    &action_input,
+    &limits,
+    &context,
+    &policy,
+)?;
 
-  const body = await request.json();
-  return Response.json({ body, receivedAt: new Date().toISOString() });
+match outcome {
+    AdmissionOutcome::Dispatch(plan) => invoke_action(plan),
+    AdmissionOutcome::Respond(response) => send(response),
 }`,
   },
   {

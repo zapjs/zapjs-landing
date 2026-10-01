@@ -2,72 +2,60 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Activity, BookOpen, Code2, Database, FileJson } from 'lucide-react';
+import { Activity, BookOpen, Code2, FileJson, ShieldCheck } from 'lucide-react';
 
 const examples = [
   {
-    id: 'features',
-    name: 'Feature Manifest',
-    endpoint: '/api/features',
-    method: 'GET',
-    icon: Database,
-    description: 'Return the documented ZapJS capability list from authored content.',
-    curl: 'curl "$ORIGIN/api/features"',
-    codeSnippet: `export function GET() {
-  return Response.json({ features, count: features.length, target: 'rust-react' });
-}`,
-  },
-  {
-    id: 'posts',
-    name: 'Article Index',
-    endpoint: '/api/posts',
-    method: 'GET',
-    icon: BookOpen,
-    description: 'Serve authored articles with filtering and pagination.',
-    curl: 'curl "$ORIGIN/api/posts?tag=architecture"',
-    codeSnippet: `export function GET(request: Request) {
-  const tag = new URL(request.url).searchParams.get('tag');
-  const filtered = tag ? posts.filter(post => post.tags.includes(tag)) : posts;
-  return Response.json({ posts: filtered });
-}`,
-  },
-  {
-    id: 'echo',
-    name: 'JSON Route Handler',
-    endpoint: '/api/echo',
-    method: 'POST',
+    id: 'manifest',
+    name: 'Manifest-backed routing',
+    label: 'zap-runtime',
     icon: FileJson,
-    description: 'Handle JSON with Web Request and Response primitives.',
-    curl: 'curl -X POST "$ORIGIN/api/echo" -H "content-type: application/json" -d \'{"hello":"zap"}\'',
-    codeSnippet: `export async function POST(request: Request) {
-  const body = await request.json();
-  return Response.json({ body, receivedAt: new Date().toISOString() });
+    description: 'The runtime loads a Rust-owned application manifest, validates references and plans static assets, pages and route handlers before dispatch.',
+    evidence: 'cargo +1.96.0 test -p zap-runtime',
+    codeSnippet: `let outcome = admit_request_input(&manifest, &request, &limits)?;
+match outcome {
+  AdmissionOutcome::Dispatch(target) => run_target(target),
+  AdmissionOutcome::Respond(response) => send(response),
 }`,
   },
   {
-    id: 'stream',
-    name: 'Streaming Response',
-    endpoint: '/api/stream',
-    method: 'GET',
+    id: 'actions',
+    name: 'Action admission',
+    label: 'zap-runtime',
+    icon: ShieldCheck,
+    description: 'Known server actions are admitted through Rust with method, origin, body-size, request-context, auth-state and deadline policy checks.',
+    evidence: 'request::tests::execution_admission_enforces_context_policy_before_dispatch',
+    codeSnippet: `let plan = admit_action_execution(
+  &manifest,
+  &action_input,
+  &limits,
+  &context,
+  &policy,
+)?;`,
+  },
+  {
+    id: 'splice',
+    name: 'Internal worker boundary',
+    label: 'zap-splice',
     icon: Activity,
-    description: 'Stream response chunks through the framework boundary.',
-    curl: 'curl -N "$ORIGIN/api/stream"',
-    codeSnippet: `export function GET() {
-  const stream = new ReadableStream({
-    start(controller) {
-      controller.enqueue(new TextEncoder().encode('ready\\n'));
-      controller.close();
-    },
-  });
-  return new Response(stream);
-}`,
+    description: 'Splice is bounded Rust-to-Rust infrastructure for framework-owned worker isolation. It is not exposed as a public backend or user-operated service.',
+    evidence: 'cargo +1.96.0 test -p zap-splice',
+    codeSnippet: `let client = Client::connect(stream, Config::default()).await?;
+let bytes = client.invoke("render", payload, deadline).await?;`,
+  },
+  {
+    id: 'fozzy',
+    name: 'Deterministic evidence',
+    label: 'fozzy',
+    icon: BookOpen,
+    description: 'Production claims require deterministic scenario checks and host-backed traces that can be verified, replayed and accepted by Fozzy CI.',
+    evidence: 'fozzy trace verify artifacts/verification/rust-only-crates-host.trace.fozzy --strict-verify --json',
+    codeSnippet: `fozzy run artifacts/verification/rust-only-crates-host.fozzy.json \
+  --det --seed 42 \
+  --proc-backend host --fs-backend host --http-backend host \
+  --record artifacts/verification/rust-only-crates-host.trace.fozzy --json`,
   },
 ];
-
-const methodColors: Record<string, string> = {
-  GET: 'bg-emerald-500/10 text-emerald-400',
-  POST: 'bg-sky-500/10 text-sky-400',
-};
 
 export default function Examples() {
   const ref = useRef<HTMLDivElement>(null);
@@ -85,13 +73,13 @@ export default function Examples() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-sky-500/10 border border-sky-500/20 rounded-full">
             <Code2 className="w-4 h-4 text-sky-400" />
-            <span className="text-sm font-medium text-sky-400">Examples</span>
+            <span className="text-sm font-medium text-sky-400">Verified examples</span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-5xl text-white mb-6">
-            Web primitives, <span className="text-gradient">framework owned</span>
+            Evidence, <span className="text-gradient">not placeholders</span>
           </h2>
           <p className="text-lg text-carbon-400 max-w-3xl mx-auto">
-            The public examples describe the React and Web API shapes ZapJS will run through its Rust runtime. They avoid unsupported runtime claims.
+            These examples describe the Rust contracts currently proved by the core repository. They avoid live endpoint demos until the full React vertical slice owns them end to end.
           </p>
         </motion.div>
 
@@ -112,17 +100,17 @@ export default function Examples() {
                   <div>
                     <h3 className="font-semibold text-white">{example.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className={`px-2 py-0.5 text-xs font-mono font-medium rounded ${methodColors[example.method]}`}>
-                        {example.method}
+                      <span className="px-2 py-0.5 text-xs font-mono font-medium rounded bg-emerald-500/10 text-emerald-400">
+                        {example.label}
                       </span>
-                      <code className="text-xs text-carbon-400 font-mono">{example.endpoint}</code>
                     </div>
                   </div>
                 </div>
               </div>
               <p className="text-sm text-carbon-400 mb-4">{example.description}</p>
               <div className="mb-4 p-3 bg-carbon-950/60 rounded-lg border border-carbon-800">
-                <code className="text-xs text-carbon-300 font-mono break-all">{example.curl}</code>
+                <p className="mb-1 text-[11px] uppercase tracking-wider text-carbon-500">Evidence</p>
+                <code className="text-xs text-carbon-300 font-mono break-all">{example.evidence}</code>
               </div>
               <pre className="p-4 bg-carbon-950/60 rounded-lg border border-carbon-800 overflow-x-auto text-xs leading-relaxed text-carbon-300">
                 <code>{example.codeSnippet}</code>
