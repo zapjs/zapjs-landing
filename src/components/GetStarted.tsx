@@ -14,7 +14,7 @@ const commands = [
     description: 'Run deterministic scenario coverage against the Rust-owned crate boundary.',
   },
   {
-    command: 'fozzy trace verify artifacts/verification/rust-only-crates-host.trace.fozzy --strict --json',
+    command: 'fozzy trace verify artifacts/verification/rust-only-crates-host.trace.fozzy --strict-verify --json',
     description: 'Verify a recorded host-backed trace before treating runtime behavior as production evidence.',
   },
 ];
@@ -23,7 +23,7 @@ const projectStructure = [
   { type: 'folder', name: 'crates/runtime/', indent: 0, description: 'Routes, path safety and request contracts' },
   { type: 'folder', name: 'crates/splice/', indent: 0, description: 'Bounded internal worker transport' },
   { type: 'folder', name: 'crates/render/', indent: 0, description: 'Rust-owned JavaScript host for React execution' },
-  { type: 'folder', name: 'crates/build/', indent: 0, description: 'TSX graph compilation through Rust libraries' },
+  { type: 'folder', name: 'crates/build/', indent: 0, description: 'Rust application graph and TSX compilation' },
   { type: 'folder', name: 'docs/', indent: 0, description: 'Current architecture and implementation notes' },
   { type: 'file', name: 'Cargo.toml', indent: 0, description: 'Single Rust workspace definition' },
 ];
