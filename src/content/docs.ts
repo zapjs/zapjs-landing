@@ -61,7 +61,7 @@ export const documentation: DocumentationSection[] = [
     list('Measure cold and warm latency.', 'Report p50, p95 and p99.', 'Track memory, CPU, throughput and errors.', 'Measure client JavaScript transfer and browser-visible rendering.', 'Compare against pinned framework versions under equivalent behavior and load.'),
   ] },
   { id: 'verification', title: 'Verification Gates', summary: 'What must be proven before production claims.', blocks: [
-    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server actions execute through Rust-owned admission.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
+    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server actions complete full Rust invocation with application-specific authorization boundaries.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
     note('Crate tests and Fozzy traces are evidence for the foundation. They are not substitutes for the full framework vertical slice.'),
   ] },
 ];
