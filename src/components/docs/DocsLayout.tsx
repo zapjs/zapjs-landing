@@ -32,22 +32,18 @@ interface DocsLayoutProps {
 const sidebarCategories = [
   {
     label: 'Getting Started',
-    items: ['introduction', 'quick-start', 'project-structure'],
+    items: ['introduction', 'status'],
   },
   {
     label: 'Core Concepts',
-    items: ['architecture', 'routing', 'client-router', 'ssg', 'api-routes'],
+    items: ['architecture', 'runtime', 'splice'],
   },
   {
-    label: 'Server & Native',
-    items: ['server-functions', 'native'],
+    label: 'Evidence',
+    items: ['verification'],
   },
   {
-    label: 'Production',
-    items: ['security', 'observability', 'error-handling', 'caching', 'reliability'],
-  },
-  {
-    label: 'Deploy',
+    label: 'Production Discipline',
     items: ['performance', 'deployment'],
   },
 ];
@@ -436,7 +432,7 @@ export default function DocsLayout({ sections, currentSection, onSectionChange }
                 className="group flex items-center gap-3 px-4 py-3 bg-carbon-900/30 border border-carbon-800/50 rounded-xl hover:border-carbon-700/50 transition-all"
               >
                 <div className="text-right">
-                  <p className="text-xs text-carbon-500 mb-1">Next</p>
+                  <p className="text-xs text-carbon-500 mb-1">Next section</p>
                   <p className="text-sm font-medium text-white">{nextSection.title}</p>
                 </div>
                 <ChevronRight className="w-5 h-5 text-carbon-500 group-hover:text-zap-400 transition-colors" />

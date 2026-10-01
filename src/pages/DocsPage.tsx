@@ -4,11 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import DocsLayout from '../components/docs/DocsLayout';
 import { docSections } from '../components/docs/DocsSections';
 
-const aliases: Record<string, string> = { 'enhanced-rpc': 'native', 'native-rust': 'native', 'server-actions': 'server-functions' };
 function sectionFromHash(hash: string): string {
   let id: string;
   try { id = decodeURIComponent(hash.slice(1)); } catch { return 'introduction'; }
-  id = aliases[id] ?? id;
   return docSections.some(section => section.id === id) ? id : 'introduction';
 }
 export default function DocsPage() {

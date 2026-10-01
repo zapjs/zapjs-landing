@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Book, Code2, Layers, Zap, Workflow, Terminal, Cpu, FileCode2, Rocket, Check, Copy } from 'lucide-react';
+import { Book, Layers, Zap, Workflow, Cpu, FileCode2, Rocket, Check, Copy } from 'lucide-react';
 import { cn, highlightCode, tokensToHtml } from '../../lib/utils';
 import { documentation, type DocumentationBlock } from '../../content/docs';
 import type { DocSection } from './DocsLayout';
@@ -48,9 +48,8 @@ function Block({ block }: { block: DocumentationBlock }) {
 }
 const icons: Record<string, DocSection['icon']> = {
   introduction: Book, 'quick-start': Terminal, 'project-structure': FileCode2, architecture: Layers,
-  routing: Workflow, 'client-router': Workflow, ssg: Rocket, 'api-routes': Code2,
-  'server-functions': FileCode2, native: Cpu, security: Layers, observability: Terminal,
-  'error-handling': Workflow, caching: Layers, reliability: Layers, performance: Zap, deployment: Rocket,
+  status: FileCode2, runtime: Workflow, splice: Cpu, verification: Check,
+  performance: Zap, deployment: Rocket,
 };
 function sectionContent(title: string, summary: string, blocks: DocumentationBlock[]): ReactNode {
   return <article>
