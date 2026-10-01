@@ -47,8 +47,8 @@ export const documentation: DocumentationSection[] = [
   ] },
   { id: 'runtime', title: 'Runtime Boundaries', summary: 'What application code can rely on.', blocks: [
     p('Application work crosses explicit Rust admission or named React-host operations. Browser bundles cannot import server runtime APIs. Server bundles receive only the Web primitives and host operations ZapJS provides.'),
-    p('Route handlers and actions need explicit admission: body limits, request context, authorization hooks, cancellation, typed errors and public/private cache policy must be enforced before application code mutates state.'),
-    p('Public prerendering and shared cache metadata belong to the graph. Request-local memoization is scoped to one request; cross-instance invalidation requires an adapter-backed store with deployment-specific namespace and versioning.'),
+    p('Route handlers and actions need explicit admission before application code mutates state. The verified foundation covers body, request-context, deadline and public/private cache policy checks; app-specific authorization hooks remain a production gate.'),
+    p('Public prerendering and shared cache metadata belong to the graph. Request-local memoization is scoped to one request; cross-instance invalidation requires a host-managed store or Rust-owned persistence boundary with deployment-specific namespace and versioning.'),
   ] },
   { id: 'deployment', title: 'Deployment', summary: 'One managed project output with Rust-managed artifacts.', blocks: [
     p('The target deployment is one project output lowered into the host artifact format: static assets, browser chunks, server bundles, route manifest, cache metadata and Rust-managed dynamic function artifacts.'),
@@ -61,7 +61,7 @@ export const documentation: DocumentationSection[] = [
     list('Measure cold and warm latency.', 'Report p50, p95 and p99.', 'Track memory, CPU, throughput and errors.', 'Measure client JavaScript transfer and browser-visible rendering.', 'Compare against pinned framework versions under equivalent behavior and load.'),
   ] },
   { id: 'verification', title: 'Verification Gates', summary: 'What must be proven before production claims.', blocks: [
-    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server actions complete full Rust invocation with application-specific authorization boundaries.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
+    list('React HTML SSR and Flight run through the Rust-owned renderer.', 'The graph emits matching server bundles, browser chunks, client references and action IDs.', 'Hydration, navigation, pending states, error boundaries and actions pass browser automation.', 'Route handlers and server actions complete full Rust invocation with application-specific authorization hooks.', 'Rust-managed deployment artifacts are produced and verified.', 'The landing site only advertises behavior backed by executable evidence.'),
     note('Crate tests and Fozzy traces are evidence for the foundation. They are not substitutes for the full framework vertical slice.'),
   ] },
 ];

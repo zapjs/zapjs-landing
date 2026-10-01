@@ -6,6 +6,6 @@ export const features = [
   { id: 'build', title: 'Rust TSX Build Path', description: 'TypeScript and TSX are bundled through Rust libraries for server and browser targets.' },
   { id: 'splice', title: 'Internal Splice Boundary', description: 'Splice is a bounded Rust worker transport for isolation and replacement, not a public service.' },
   { id: 'deployment', title: 'Rust-Managed Artifacts', description: 'The target deployment is one project output with static assets and Rust-managed function artifacts.' },
-  { id: 'actions', title: 'Server Actions & Routes', description: 'Mutations and route handlers pass through Rust admission with explicit body, context and authorization boundaries.' },
+  { id: 'actions', title: 'Server Actions & Routes', description: 'Route handlers and actions pass through Rust admission; app-specific authorization hooks remain a production gate.' },
   { id: 'cache', title: 'Explicit Cache Policy', description: 'Cache metadata, cache-control decisions and public/private admission are part of the verified graph contract.' },
 ];
