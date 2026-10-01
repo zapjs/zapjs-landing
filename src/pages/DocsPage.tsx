@@ -1,4 +1,3 @@
-'use client';
 
 import { useCallback, useEffect, useState } from 'react';
 import DocsLayout from '../components/docs/DocsLayout';
@@ -10,7 +9,6 @@ function sectionFromHash(hash: string): string {
   return docSections.some(section => section.id === id) ? id : 'introduction';
 }
 export default function DocsPage() {
-  // The server and first browser render agree; URL state is read only after mount.
   const [currentSection, setCurrentSection] = useState('introduction');
   useEffect(() => {
     const synchronize = () => {

@@ -1,4 +1,3 @@
-'use client';
 
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
@@ -9,8 +8,7 @@ const codeExamples = [
   {
     id: 'client', label: 'Client Component', icon: Code2,
     filename: 'app/counter.tsx', language: 'typescript',
-    code: `'use client';
-import { useActionState } from 'react';
+    code: `import { useActionState } from 'react';
 import { increment } from './actions';
 
 export default function Counter() {

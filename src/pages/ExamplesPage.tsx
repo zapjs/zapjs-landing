@@ -1,4 +1,3 @@
-'use client';
 import { motion } from 'framer-motion';
 import { Zap, Github, ArrowLeft } from 'lucide-react';
 import Examples from '../components/Examples';

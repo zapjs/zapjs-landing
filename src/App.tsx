@@ -1,6 +1,10 @@
-'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import BlogIndex from './components/blog/BlogIndex';
+import BlogPost from './components/blog/BlogPost';
+import posts from './content/posts';
+import DocsPage from './pages/DocsPage';
+import ExamplesPage from './pages/ExamplesPage';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -10,7 +14,7 @@ import Architecture from './components/Architecture';
 import GetStarted from './components/GetStarted';
 import Footer from './components/Footer';
 
-export default function Home() {
+function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -53,26 +57,30 @@ export default function Home() {
         <Footer />
       </div>
 
-      {/* Built with Zap badge */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 0.5 }}
-        className="fixed bottom-6 right-6 z-50"
-      >
-        <a
-          href="https://github.com/zapjs/zapjs"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center gap-2 px-4 py-2 bg-carbon-900/80 backdrop-blur-sm border border-carbon-800 rounded-full text-sm text-carbon-400 hover:text-white hover:border-zap-500/50 transition-all duration-300"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zap-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-zap-500"></span>
-          </span>
-          <span>Built with <span className="text-zap-400 font-medium">Zap</span></span>
-        </a>
-      </motion.div>
     </div>
   );
+}
+
+function NotFoundPage() {
+  return (
+    <main className="min-h-screen grid place-content-center gap-6 text-center p-8 bg-carbon-950">
+      <h1 className="text-4xl font-display font-bold text-white">Page not found</h1>
+      <p className="text-carbon-400">This address does not belong to the ZapJS website.</p>
+      <a className="text-zap-400 hover:text-zap-300 transition-colors" href="/">Back to ZapJS</a>
+    </main>
+  );
+}
+
+export default function App() {
+  const path = typeof window === 'undefined' ? '/' : window.location.pathname.replace(/\/$/, '') || '/';
+  if (path === '/') return <Home />;
+  if (path === '/docs') return <DocsPage />;
+  if (path === '/examples') return <ExamplesPage />;
+  if (path === '/blog') return <BlogIndex />;
+  if (path.startsWith('/blog/')) {
+    const slug = path.slice('/blog/'.length);
+    const post = posts.find(article => article.slug === slug);
+    return post ? <BlogPost post={post} /> : <NotFoundPage />;
+  }
+  return <NotFoundPage />;
 }

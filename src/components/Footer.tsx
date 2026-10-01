@@ -1,4 +1,3 @@
-'use client';
 import { motion } from 'framer-motion';
 import { Zap, Github, BookOpen, Code2 } from 'lucide-react';
 

@@ -1,4 +1,3 @@
-'use client';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowRight } from 'lucide-react';
 import posts from '../../content/posts';

@@ -1,4 +1,3 @@
-'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Book, Layers, Zap, Workflow, Cpu, FileCode2, Rocket, Check, Copy } from 'lucide-react';

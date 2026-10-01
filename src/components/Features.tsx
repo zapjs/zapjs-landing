@@ -1,4 +1,3 @@
-'use client';
 
 import { features } from '../content/framework';
 import { motion, useInView } from 'framer-motion';
