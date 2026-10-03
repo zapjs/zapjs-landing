@@ -4,22 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "typecheck": "tsc --noEmit"
+    "prepare:react": "python3 scripts/install-react-sources.py",
+    "build": "python3 scripts/verify-zap.py --build-only",
+    "verify": "python3 scripts/verify-zap.py"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "6.1.1",
-    "@types/react": "19.3.0",
-    "@types/react-dom": "19.3.0",
-    "autoprefixer": "10.4.27",
-    "framer-motion": "13.4.6",
-    "lucide-react": "1.49.0",
-    "postcss": "8.5.8",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "tailwindcss": "3.4.19",
-    "typescript": "7.0.2",
-    "vite": "8.3.1"
-  },
-  "devDependencies": {}
+    "react-server-dom-webpack": "19.3.0"
+  }
 }

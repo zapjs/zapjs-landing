@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "zapjs-landing-zap-build-check",
+  "steps": [
+    {
+      "type": "proc_when",
+      "cmd": "/bin/zsh",
+      "args": [
+        "-lc",
+        "cd /Users/deepsaint/Desktop/zapjs-landing && python3 scripts/verify-zap.py"
+      ],
+      "exit_code": 0,
+      "times": 1,
+      "stdout": "React package sources materialized for ZapJS build\nmanifest=/Users/deepsaint/Desktop/zapjs-landing/.zap/manifest.json\ndeployment=/Users/deepsaint/Desktop/zapjs-landing/.zap/deployment.json\nroutes=5\nmodules=6\nserver_bundles=11\nbrowser_bundles=5\ntotal_bundle_bytes=10679323\nwarnings=0\nroutes=5\nmodules=6\nlayouts=1\nactions=0\nclient_references=0\nassets=1\n",
+      "stderr": ""
+    },
+    {
+      "type": "proc_spawn",
+      "cmd": "/bin/zsh",
+      "args": [
+        "-lc",
+        "cd /Users/deepsaint/Desktop/zapjs-landing && python3 scripts/verify-zap.py"
+      ],
+      "expect_exit": 0
+    }
+  ]
+}
