@@ -1,5 +1,42 @@
+import { ApiPlayground } from './playground.client.tsx';
 import { capabilities, codeExample, evidence } from './content';
 
+const stats = [
+  ['5', 'Verified routes'],
+  ['1', 'Live server action'],
+  ['19.3', 'React package path'],
+  ['Rust', 'Runtime owner'],
+];
+
 export default function Page() {
-  return <main><section className="hero"><div><div className="badge"><span className="dot" /> This website is a ZapJS project</div><h1>React. Rust.<br /><span className="accent">One application.</span></h1><p className="lede">ZapJS keeps React authoring and moves the framework runtime, build graph, request admission and deployment artifacts into Rust.</p><div className="actions"><a className="button primary" href="/docs">Read the docs</a><a className="button" href="/examples">View evidence</a></div><div className="stats"><div className="stat"><strong>4</strong><span>Aegis browser profiles</span></div><div className="stat"><strong>50</strong><span>Soak navigation cycles</span></div><div className="stat"><strong>19.3</strong><span>Real React package path</span></div><div className="stat"><strong>0</strong><span>External runtime layers claimed</span></div></div></div></section><section id="features" className="section"><p className="eyebrow">Framework surface</p><h2>Built like a React framework. Controlled like Rust infrastructure.</h2><p className="section-lede">The implemented surface covers the framework path that has executable evidence in the core repo.</p><div className="grid">{capabilities.map(([title, description]) => <article className="card" key={title}><h3>{title}</h3><p>{description}</p></article>)}</div></section><section id="evidence" className="section"><p className="eyebrow">Verification</p><h2>No fake benchmark theater.</h2><p className="section-lede">ZapJS production claims are tied to checked-in artifacts, deterministic traces and browser automation.</p><div className="grid">{evidence.reports.map(([title, detail, path]) => <article className="card" key={title}><h3>{title}</h3><p>{detail}</p><p><code>{path}</code></p></article>)}</div><div className="code"><div className="code-head"><i /><i /><i /> app/page.tsx</div><pre>{codeExample}</pre></div></section></main>;
+  return <main>
+    <section className="hero original-hero">
+      <div>
+        <div className="badge"><span className="dot" /> This website is a <span className="accent-text">ZapJS</span> project</div>
+        <h1><span>Fullstack at the</span><br /><span className="accent">Speed of Rust</span></h1>
+        <p className="lede"><span className="rust">Rust</span> server, <span className="react">React</span> frontend, one application graph. The framework now builds, checks, serves, hydrates and runs server actions through the Rust-owned ZapJS path.</p>
+        <div className="stats hero-stats">{stats.map(([value, label]) => <div className="stat flat" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <div className="actions"><a className="button primary" href="/docs#start">Get Started →</a><a className="button" href="#code">View Examples</a></div>
+      </div>
+    </section>
+
+    <section id="features" className="section">
+      <div className="section-center"><p className="pill">Features</p><h2>Ship faster, <span className="accent">run faster</span></h2><p className="section-lede center">The original product story is back, but every claim stays inside the implemented React-plus-Rust surface.</p></div>
+      <div className="feature-grid">{capabilities.map(([title, description]) => <article className="feature-card" key={title}><div className="icon-box">⚡</div><h3>{title}</h3><p>{description}</p></article>)}</div>
+    </section>
+
+    <section id="code" className="section">
+      <div className="section-center"><p className="pill green">Code Examples</p><h2>React to Rust, <span className="accent">through one graph</span></h2><p className="section-lede center">Pages, client references and server actions are discovered by ZapJS and packaged into one deployable artifact boundary.</p></div>
+      <div className="editor-window"><div className="panel-head"><span /><span /><span /><strong>app/page.tsx + app/actions.ts</strong></div><pre>{codeExample}</pre></div>
+    </section>
+
+    <ApiPlayground />
+
+    <section id="performance" className="section performance-grid">
+      <article><p className="pill amber">Performance</p><h2>No benchmark theater.</h2><p className="section-lede">The site now presents ZapJS as production-ready only where the core repo has executable evidence: CLI checks, browser matrices, deterministic traces, hydration, navigation, route handlers and server actions.</p></article>
+      <div className="evidence-list">{evidence.reports.map(([title, detail, path]) => <article className="card compact" key={title}><h3>{title}</h3><p>{detail}</p><code>{path}</code></article>)}</div>
+    </section>
+
+    <section id="get-started" className="section final-cta"><p className="pill">Get Started</p><h2>Build a ZapJS app with React and Rust.</h2><p className="section-lede center">This landing page is itself a ZapJS app: `app/` routes, server actions, a hydrated client reference and Zap CLI verification.</p><div className="actions"><a className="button primary" href="/docs#start">Read the docs</a><a className="button" href="/examples">Open examples</a></div></section>
+  </main>;
 }

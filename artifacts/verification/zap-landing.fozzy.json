@@ -11,7 +11,7 @@
       ],
       "exit_code": 0,
       "times": 1,
-      "stdout": "React package sources materialized for ZapJS build\nmanifest=/Users/deepsaint/Desktop/zapjs-landing/.zap/manifest.json\ndeployment=/Users/deepsaint/Desktop/zapjs-landing/.zap/deployment.json\nroutes=5\nmodules=6\nserver_bundles=11\nbrowser_bundles=5\ntotal_bundle_bytes=10679323\nwarnings=0\nroutes=5\nmodules=6\nlayouts=1\nactions=0\nclient_references=0\nassets=1\n",
+      "stdout": "React package sources materialized for ZapJS build\nmanifest=/Users/deepsaint/Desktop/zapjs-landing/.zap/manifest.json\ndeployment=/Users/deepsaint/Desktop/zapjs-landing/.zap/deployment.json\naction_proxy=/Users/deepsaint/Desktop/zapjs-landing/.zap/browser/actions.js\nroutes=5\nmodules=8\nserver_bundles=12\nbrowser_bundles=6\ntotal_bundle_bytes=10865189\nwarnings=0\nroutes=5\nmodules=8\nlayouts=1\nactions=1\nclient_references=2\nassets=1\n",
       "stderr": ""
     },
     {
